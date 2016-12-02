@@ -1,0 +1,32 @@
+{
+  "name": "ae-weather-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "ios": "react-native run-ios",
+    "android": "react-native run-android",
+    "build-android": "cd android && ./gradlew assembleRelease",
+    "test": "jest"
+  },
+  "dependencies": {
+    "lodash": "^4.17.2",
+    "react": "~15.4.0-rc.4",
+    "react-native": "0.38.0",
+    "react-native-vector-icons": "^3.0.0",
+    "react-redux": "^4.4.6",
+    "redux": "^3.6.0",
+    "redux-saga": "^0.13.0",
+    "whatwg-fetch": "^2.0.1"
+  },
+  "devDependencies": {
+    "babel-jest": "17.0.2",
+    "babel-preset-react-native": "1.9.0",
+    "jest": "17.0.3",
+    "jest-react-native": "17.0.3",
+    "react-test-renderer": "~15.4.0-rc.4"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
