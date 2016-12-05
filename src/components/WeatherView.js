@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 import {Image, View, StyleSheet, Text} from 'react-native';
 import { connect } from 'react-redux'
 
-import Icon from 'react-native-vector-icons/Entypo';
 import weatherIcon from '../utilities/weatherIcon'
 import flatColor from '../utilities/flatColor'
 
@@ -55,7 +54,7 @@ const styles = StyleSheet.create({
 });
 
 const WeatherView = ({weather}) => {
-  let {
+  const {
     status: istatus,
     channel: {
       location: {city: icity},
@@ -64,7 +63,7 @@ const WeatherView = ({weather}) => {
       }
     }
   } = weather;
-  let loadImageGif = require('../assets/img/loading.gif');
+  const loadImageGif = require('../assets/img/loading.gif');
   let normalImage, loadImage, elmTips, elmWeatherCity, elmWeatherDescribe;
   if (istatus !== 'loading') normalImage = 
   <Image style={styles.weatherIconImage} source={weatherIcon(icode)} />

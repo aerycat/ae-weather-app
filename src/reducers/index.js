@@ -36,7 +36,20 @@ const weather = (state = _stateInit.weather, action) => {
   }
 }
 
-const reducers =  combineReducers({ weather })
+const geolocation = (state = {status: '', data: '', error: ''}, action) => {
+  switch (action.type) {
+    case actions.GEOLOCATION_FETCH:
+      return Object.assign({}, state, {status: 'loading', error: ''})
+    case actions.GEOLOCATION_FETCH_SUCCEED:
+      return Object.assign({}, {status: 'succeed', data: action.data, error: ''})
+    case actions.GEOLOCATION_FETCH_FAILED:
+      return Object.assign({}, state, {status: 'failed', error: action.error})
+    default:
+      return state
+  }
+}
+
+const reducers =  combineReducers({ weather, geolocation })
 
 export default function root(state, action) {
   return reducers(state, action)

@@ -18,7 +18,7 @@ import { Provider } from 'react-redux'
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from './sagas'
 import configureStore from './store/configureStore.js'
-import * as actions from './actions'
+
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
   window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({/* options */}) :
   compose
@@ -53,9 +53,7 @@ export default class aeWeatherApp extends Component {
       <View style={styles.container}>
         <StatusBar backgroundColor={flatColor.GREEN_SEA} />
         <SystemTimer />
-        <View style={{backgroundColor: '#eeeeee'}}>
-          <TextInputRow {...{placeholder: 'Entry a city name', triggerAction: actions.weatherFetch}} />
-        </View>
+        <TextInputRow placeholder='Entry a city name' />
         <WeatherView />
       </View>
       </Provider>

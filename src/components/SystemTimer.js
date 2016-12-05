@@ -6,7 +6,7 @@ import moment from 'moment'
 const styles = StyleSheet.create({
   componentWrap: {
     height: 180,
-    backgroundColor: flatColor.GREEN_SEA
+    backgroundColor: flatColor.GREEN_SEA,
   },
   currentDate: {
     fontSize: 20,
