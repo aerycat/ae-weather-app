@@ -47,24 +47,9 @@ const styles = StyleSheet.create({
 let TextInputRow = ({dispatch, placeholder, weather, geolocation}) => {
   const loadImageGif = require('../assets/img/geoLoading.gif');
   const {channel: {location: {city: cityName}}} = weather
-  const getGeoWeather = () => {
-    dispatch(actions.geolocationFetch())
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        let {coords:{latitude: lat, longitude: long}} = position
-        dispatch(actions.geolocationFetchSucceed(`(${lat},${long})`))
-        dispatch(actions.weatherFetch(`(${lat},${long})`))
-      },
-      (error) => {
-        console.log(error)
-        dispatch(actions.geolocationFetchFailed('geo error'))
-      },
-      {enableHighAccuracy: true, timeout: 60000, maximumAge: 1000}
-    )
-  }
   let geoButton, geoStatus
   if (geolocation.status !== 'loading') geoButton = 
-  <Text style={styles.buttonStyle} onPress={getGeoWeather}><Icon name="location" style={{fontSize: 24}} color={flatColor.ASBESTOS} /></Text>
+  <Text style={styles.buttonStyle} onPress={() => {dispatch(actions.geolocationFetch())}}><Icon name="location" style={{fontSize: 24}} color={flatColor.ASBESTOS} /></Text>
   if (geolocation.status === 'loading') geoStatus = 
   <View style={styles.buttonViewStyle}><Image style={styles.loadImage} source={loadImageGif} /></View>
   return (

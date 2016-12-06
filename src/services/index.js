@@ -26,6 +26,29 @@ export const api = {
           throw Error('no data')
         }
         return Object.assign({}, results)
+      }).catch((error) => {
+        throw Error(error)
+      })
+  }
+}
+
+const geoFetch = function (enableHighAccuracy = false) {
+  let options =  enableHighAccuracy ? {timeout: 30000, maximumAge: 1000, enableHighAccuracy: true} : {timeout: 10000, maximumAge: 1000, enableHighAccuracy: false}
+  return new Promise(function (resolve, reject) {
+    navigator.geolocation.getCurrentPosition(resolve, reject, options);
+  })
+}
+
+export const geo = {
+  getGeolocation(enableHighAccuracy) {
+    return geoFetch(enableHighAccuracy)
+      .then((position) => {
+        let {coords:{latitude: lat, longitude: long}} = position
+        if (!lat || !long) throw Error('no data')
+        return {lat, long}
+      })
+      .catch((error) => {
+        throw Error(error)
       })
   }
 }

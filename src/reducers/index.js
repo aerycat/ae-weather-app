@@ -5,6 +5,7 @@ import * as actions from '../actions'
 const _stateInit = {
   weather: {
     status: '',
+    errorMsg: '',
     channel: {
       location: {
         city: '',
@@ -28,22 +29,22 @@ const weather = (state = _stateInit.weather, action) => {
     case actions.WEATHER_FETCH:
       return merge({}, _stateInit.weather, {status: 'loading', channel: {location: {city: action.city}}})
     case actions.WEATHER_FETCH_SUCCEED:
-      return Object.assign({}, action.data, {status: 'succeed'})
+      return Object.assign({}, action.weatherData, {status: 'succeed', errorMsg: ''})
     case actions.WEATHER_FETCH_FAILED:
-      return Object.assign({}, _stateInit.weather, {status: 'failed'})
+      return Object.assign({}, _stateInit.weather, {status: 'failed', errorMsg: action.errorMsg})
     default:
       return state
   }
 }
 
-const geolocation = (state = {status: '', data: '', error: ''}, action) => {
+const geolocation = (state = {status: '', geo: '', errorMsg: ''}, action) => {
   switch (action.type) {
     case actions.GEOLOCATION_FETCH:
-      return Object.assign({}, state, {status: 'loading', error: ''})
+      return Object.assign({}, state, {status: 'loading', errorMsg: ''})
     case actions.GEOLOCATION_FETCH_SUCCEED:
-      return Object.assign({}, {status: 'succeed', data: action.data, error: ''})
+      return Object.assign({}, {status: 'succeed', geo: action.geoData, errorMsg: ''})
     case actions.GEOLOCATION_FETCH_FAILED:
-      return Object.assign({}, state, {status: 'failed', error: action.error})
+      return Object.assign({}, state, {status: 'failed', errorMsg: action.error})
     default:
       return state
   }
