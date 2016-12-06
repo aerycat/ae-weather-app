@@ -1,5 +1,5 @@
 # ae-weather-app
-[![version](https://img.shields.io/badge/version-v0.1.1-blue.svg)](https://github.com/aerycat/ae-weather-app)
+[![version](https://img.shields.io/badge/version-v0.1.1-blue.svg)](https://github.com/aerycat/ae-weather-app/releases)
 [![test](https://travis-ci.org/aerycat/ae-weather-app.svg?branch=master)](https://travis-ci.org/aerycat/ae-weather-app)
 
 A simple react-native app demo
