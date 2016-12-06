@@ -1,7 +1,7 @@
 # ae-weather-app
 A simple react-native app demo
 
-Please follow the official instructions to configure the development environment.
+Please follow the [official instructions](https://facebook.github.io/react-native/) to configure the development environment.
 
 ### Then
 ```
