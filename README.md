@@ -1,13 +1,19 @@
 # ae-weather-app
 A simple react-native app demo
 
-please install the "react-native-cli" first (npm i -g react-native-cli)
+Please follow the official instructions to configure the development environment.
 
-### get start
+### Then
 ```
-npm i (or yarn)
+npm i
+# or
+yarn
+```
+```
 react-native run-ios
+# or
 react-native run-android
 ```
+
 
 

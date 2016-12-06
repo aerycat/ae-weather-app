@@ -12,6 +12,7 @@ android  Double tap R on your keyboard to reload,
 import React, {Component} from 'react';
 import {StyleSheet, View, StatusBar} from 'react-native';
 import flatColor from './utilities/flatColor'
+
 /* redux relation */
 import { applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
@@ -29,6 +30,7 @@ const store = configureStore({}, composeEnhancers(
 ))
 sagaMiddleware.run(rootSaga)
 /* redux relation end */
+
 /* components */
 import SystemTimer from './components/SystemTimer'
 import TextInputRow from './containers/TextInputRow'

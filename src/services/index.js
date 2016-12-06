@@ -33,7 +33,7 @@ export const api = {
 }
 
 const geoFetch = function (enableHighAccuracy = false) {
-  let options =  enableHighAccuracy ? {timeout: 30000, maximumAge: 1000, enableHighAccuracy: true} : {timeout: 10000, maximumAge: 1000, enableHighAccuracy: false}
+  let options =  enableHighAccuracy ? {timeout: 15000, maximumAge: 1000, enableHighAccuracy: true} : {timeout: 5000, maximumAge: 1000, enableHighAccuracy: false}
   return new Promise(function (resolve, reject) {
     navigator.geolocation.getCurrentPosition(resolve, reject, options);
   })
