@@ -2,9 +2,9 @@ export const WEATHER_FETCH = 'WEATHER_FETCH'
 export const WEATHER_FETCH_SUCCEED = 'WEATHER_FETCH_SUCCEED'
 export const WEATHER_FETCH_FAILED = 'WEATHER_FETCH_FAILED'
 
-export const weatherFetch = (city) => ({
+export const weatherFetch = (keyword) => ({
   type: WEATHER_FETCH,
-  city
+  keyword
 })
 
 export const weatherFetchSucceed = (weatherData) => ({
@@ -25,9 +25,10 @@ export const geolocationFetch = () => ({
   type: GEOLOCATION_FETCH
 })
 
-export const geolocationFetchSucceed = (geoData) => ({
+export const geolocationFetchSucceed = ({lat, long}) => ({
   type: GEOLOCATION_FETCH_SUCCEED,
-  geoData
+  lat,
+  long
 })
 
 export const geolocationFetchFailed = (errorMsg) => ({

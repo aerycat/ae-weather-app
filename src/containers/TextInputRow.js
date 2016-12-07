@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, TextInput, Text, Image, StyleSheet} from 'react-native';
+import {ActivityIndicator, View, TextInput, Text, Image, StyleSheet} from 'react-native';
 import flatColor from '../utilities/flatColor.js';
 import { connect } from 'react-redux';
 import * as actions from '../actions'
@@ -33,25 +33,21 @@ const styles = StyleSheet.create({
   buttonViewStyle: {
     width: 64,
     height: 46,
-    paddingTop: 10,
+    paddingTop: 13,
     backgroundColor: flatColor.SILVER,
   },
-  loadImage: {
-    paddingTop: 11,
-    width: 24,
-    height: 24,
-    alignSelf: 'center',
-  }
 });
 
 let TextInputRow = ({dispatch, placeholder, weather, geolocation}) => {
-  const loadImageGif = require('../assets/img/geoLoading.gif');
   const {channel: {location: {city: cityName}}} = weather
   let geoButton, geoStatus
+
   if (geolocation.status !== 'loading') geoButton = 
   <Text style={styles.buttonStyle} onPress={() => {dispatch(actions.geolocationFetch())}}><Icon name="location" style={{fontSize: 24}} color={flatColor.ASBESTOS} /></Text>
+
   if (geolocation.status === 'loading') geoStatus = 
-  <View style={styles.buttonViewStyle}><Image style={styles.loadImage} source={loadImageGif} /></View>
+  <View style={styles.buttonViewStyle}><ActivityIndicator color={flatColor.ASBESTOS} /></View>
+
   return (
     <View style={styles.componentWrap}>
       <View style={styles.rowStyle}>

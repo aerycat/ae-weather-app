@@ -5,9 +5,9 @@ import { api, geo } from '../services'
 
 export function* getWeather() {
   try {
-    const city = yield select((state) => (state.weather.channel.location.city))
-    // console.log(city)
-    const weather = yield call(api.getWeather, city)
+    const keyword = yield select((state) => (state.weather.keyword))
+    // console.log(keyword)
+    const weather = yield call(api.getWeather, keyword)
     yield put(actions.weatherFetchSucceed(weather))
   } catch (error) {
     yield put(actions.weatherFetchFailed('weather api error'))
@@ -20,8 +20,8 @@ export function* getGeolocation() {
     const position = yield call(geo.getGeolocation, true)
     let {lat, long} = position
     // console.log('geolocation 1 done', position)
-    yield put(actions.geolocationFetchSucceed(`(${lat},${long})`))
-    yield put(actions.weatherFetch(`(${lat},${long})`))
+    yield put(actions.geolocationFetchSucceed(position))
+    yield put(actions.weatherFetch(`${lat},${long}`))
   } catch (g1Error) {
     // console.log('geolocation 1 failed', g1Error)
     try {
@@ -29,8 +29,8 @@ export function* getGeolocation() {
       const position = yield call(geo.getGeolocation)
       let {lat, long} = position
       // console.log('geolocation 2 done', position)
-      yield put(actions.geolocationFetchSucceed(`(${lat},${long})`))
-      yield put(actions.weatherFetch(`(${lat},${long})`))
+      yield put(actions.geolocationFetchSucceed(position))
+      yield put(actions.weatherFetch(`${lat},${long}`))
     } catch (g2Error) {
       // console.log('geolocation 2 failed', g2Error)
       yield put(actions.geolocationFetchFailed('geo error'))
