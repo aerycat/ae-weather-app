@@ -1,4 +1,4 @@
-export default flatColor = {
+export const flatColor = {
   'TURQUOISE': '#1abc9c',
   'EMERALD': '#2ecc71',
   'PETER_RIVER': '#3498db',
@@ -18,5 +18,7 @@ export default flatColor = {
   'PUMPKIN': '#d35400',
   'POMEGRANATE': '#c0392b',
   'SILVER': '#bdc3c7',
-  'ASBESTOS': '#7f8c8d'
+  'ASBESTOS': '#7f8c8d',
+  'WHILE': '#ffffff',
+  'BLACK': '#000000'
 }

@@ -1,71 +1,75 @@
-import React from 'react';
-import {ActivityIndicator, View, TextInput, Text, Image, StyleSheet} from 'react-native';
-import flatColor from '../utilities/flatColor.js';
-import { connect } from 'react-redux';
+/* 输入栏组件 */
+import React from 'react'
+import {ActivityIndicator, View, TextInput, StyleSheet} from 'react-native'
+import { connect } from 'react-redux'
+// 引入通用控件组件
+import TextInputGroup from '../components/common/TextInputGroup'
+import IconButton from '../components/common/IconButton'
+// 引入常量或工具
 import * as actions from '../actions'
-import Icon from 'react-native-vector-icons/Entypo';
-// location
-
+import {flatColor} from '../utilities/styleTools'
+// 定义组件样式
 const styles = StyleSheet.create({
   componentWrap: {
-    height: 46,
-    overflow: 'hidden',
+    height: 48,
+    overflow: 'hidden'
   },
   rowStyle: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#eeeeee',
-  },
-  textInputStyle: {
-    flex: 1,
-    height: 46,
-    paddingLeft: 12,
-    paddingRight: 12,
-  },
-  buttonStyle: {
-    width: 64,
-    height: 46,
-    paddingTop: 10,
-    textAlign: 'center',
-    color: flatColor.ASBESTOS,
-    backgroundColor: flatColor.SILVER,
+    backgroundColor: '#eeeeee'
   },
   buttonViewStyle: {
     width: 64,
-    height: 46,
+    height: 48,
     paddingTop: 13,
-    backgroundColor: flatColor.SILVER,
-  },
-});
-
-let TextInputRow = ({dispatch, placeholder, weather, geolocation}) => {
-  const {channel: {location: {city: cityName}}} = weather
-  let geoButton, geoStatus
-
-  if (geolocation.status !== 'loading') geoButton = 
-  <Text style={styles.buttonStyle} onPress={() => {dispatch(actions.geolocationFetch())}}><Icon name="location" style={{fontSize: 24}} color={flatColor.ASBESTOS} /></Text>
-
-  if (geolocation.status === 'loading') geoStatus = 
-  <View style={styles.buttonViewStyle}><ActivityIndicator color={flatColor.ASBESTOS} /></View>
-
+    backgroundColor: flatColor.SILVER
+  }
+})
+// 创建组件
+const TextInputRow = ({placeholder, geolocation, weatherFetch, geolocationFetch}) => {
   return (
     <View style={styles.componentWrap}>
       <View style={styles.rowStyle}>
-        <TextInput placeholder={placeholder}  underlineColorAndroid='rgba(0,0,0,0)' style={styles.textInputStyle} defaultValue={cityName} returnKeyType='search' onSubmitEditing={(event) => {
-            dispatch(actions.weatherFetch(event.nativeEvent.text))
-          }}
+        <TextInputGroup
+          bgColor={flatColor.CLOUDS}
+          textInputProps={{
+            onSubmitEditing: (event) => {
+              weatherFetch(event.nativeEvent.text)
+            },
+            placeholder,
+            returnKeyType: 'search'
+          }} 
         />
-        {geoButton}
-        {geoStatus}
+        {
+          /* 地理信息按钮状态切换 */
+          geolocation.status === 'loading' ? 
+            <View style={styles.buttonViewStyle}>
+              <ActivityIndicator color={flatColor.ASBESTOS} />
+            </View>
+            :
+            <IconButton 
+              pressAction={() => {geolocationFetch()}} 
+              iconName='location'
+              iconStyle={{color: flatColor.ASBESTOS}}
+              thStyle={{backgroundColor: flatColor.SILVER, width: 64, height: 48}}
+              underlayColor={flatColor.CLOUDS}
+            />
+        }
       </View>
     </View>
-  );
+  )
 }
-
-TextInputRow = connect((state) => ({
-  weather: state.weather,
-  geolocation: state.geolocation
-}))(TextInputRow)
+// 链接到store
+TextInputRow = connect(
+  (state) => ({
+    geolocation: state.geolocation
+  }),
+  {
+    weatherFetch: actions.weatherFetch,
+    geolocationFetch: actions.geolocationFetch
+  }
+)(TextInputRow)
 
 export default TextInputRow
 

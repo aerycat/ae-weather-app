@@ -1,7 +1,10 @@
+/* reducers */
 import { combineReducers } from 'redux'
-import merge from 'lodash/merge'
+import { NavigationExperimental } from 'react-native'
 import * as actions from '../actions'
-
+// 引用NavigationExperimental中的方法
+const {StateUtils: NavigationStateUtils} = NavigationExperimental
+// 初始化状态
 const _stateInit = {
   weather: {
     status: '',
@@ -28,9 +31,18 @@ const _stateInit = {
     lat: '', 
     long: '', 
     errorMsg: ''
+  },
+  navigation: {
+    index: 0,
+    routes: [{key: 'Home'}]
+  },
+  setting: {
+    HOMEPAGE_CITY_NAME: '',
+    TEMPERATURE_UNIT: 'c',
+    USE_GEOLOCATION: true
   }
 }
-
+// 天气reducer
 const weather = (state = _stateInit.weather, action) => {
   switch (action.type) {
     case actions.WEATHER_FETCH:
@@ -43,7 +55,7 @@ const weather = (state = _stateInit.weather, action) => {
       return state
   }
 }
-
+// 地理信息reducer
 const geolocation = (state = _stateInit.geolocation, action) => {
   switch (action.type) {
     case actions.GEOLOCATION_FETCH:
@@ -56,8 +68,28 @@ const geolocation = (state = _stateInit.geolocation, action) => {
       return state
   }
 }
+// 导航reducer
+const navigation = (state = _stateInit.navigation, action) => {
+  switch (action.type) {
+    case actions.NAVIGATION_PUSH:
+      return  NavigationStateUtils.push(state, action.route)
+    case actions.NAVIGATION_POP:
+      return  NavigationStateUtils.pop(state)
+    default:
+      return state
+  }
+}
+// 设置reducer
+const setting = (state = _stateInit.setting, action) => {
+  switch (action.type) {
+    case actions.SETTING_UPDATE:
+      return  Object.assign({}, state, action.setting)
+    default:
+      return state
+  }
+}
 
-const reducers =  combineReducers({ weather, geolocation })
+const reducers =  combineReducers({ weather, geolocation, navigation, setting })
 
 export default function root(state, action) {
   return reducers(state, action)

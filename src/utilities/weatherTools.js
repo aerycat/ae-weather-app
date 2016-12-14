@@ -1,56 +1,4 @@
-// const weatherImageMap = {
-//   '0': 'tornado',
-//   '1': 'day-storm-showers',
-//   '2': 'tornado',
-//   '3': 'showers',
-//   '4': 'showers',
-//   '5': 'rain-mix',
-//   '6': 'rain-mix',
-//   '7': 'rain-mix',
-//   '8': 'hail',
-//   '9': 'rain',
-//   '10': 'hail',
-//   '11': 'rain',
-//   '12': 'rain',
-//   '13': 'snow',
-//   '14': 'day-snow',
-//   '15': 'snow',
-//   '16': 'snow',
-//   '17': 'hail',
-//   '18': 'rain-mix',
-//   '19': 'dust',
-//   '20': 'fog',
-//   '21': 'cloudy-gusts',
-//   '22': 'dust',
-//   '23': 'cloudy-gusts',
-//   '24': 'cloudy-gusts',
-//   '25': 'snow',
-//   '26': 'cloudy',
-//   '27': 'night-cloudy',
-//   '28': 'day-cloudy',
-//   '29': 'night-cloudy',
-//   '30': 'day-cloudy',
-//   '31': 'night-clear',
-//   '32': 'day-sunny',
-//   '33': 'night-cloudy',
-//   '34': 'day-cloudy',
-//   '35': 'rain-mix',
-//   '36': 'hot',
-//   '37': 'day-storm-showers',
-//   '38': 'day-storm-showers',
-//   '39': 'day-storm-showers',
-//   '40': 'showers',
-//   '41': 'snow',
-//   '42': 'snow',
-//   '43': 'snow',
-//   '44': 'day-cloudy',
-//   '45': 'day-storm-showers',
-//   '46': 'snow',
-//   '47': 'day-storm-showers',
-//   '3200': 'unknow'
-// }
-
-export default (code) => {
+export const weatherIcons = (code) => {
   switch (code.toString()) {
     case '0':
       return require('../assets/img/tornado.png')
@@ -150,7 +98,15 @@ export default (code) => {
       return require('../assets/img/day-storm-showers.png')
     case '3200':
       return require('../assets/img/unknow.png')
+    case '10000':
+      return require('../assets/img/unknow.png')
     default:
       return require('../assets/img/unknow.png')
   }
 } 
+
+
+export const temperatureUnitOptions = [
+  {title: '℃', value: 'c'},
+  {title: '℉', value: 'f'}
+] 
