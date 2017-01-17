@@ -6,6 +6,7 @@ import SystemTimer from '../containers/SystemTimer'
 import TextInputRow from '../containers/TextInputRow'
 import WeatherView from '../containers/WeatherView'
 import IconButton from './common/IconButton'
+import ToastTipsCollection from './common/ToastTipsCollection'
 // 引入常量或工具
 import {flatColor} from '../utilities/styleTools'
 // 创建组件
@@ -22,6 +23,7 @@ export default ({navigator}) => {
         iconStyle={{color: flatColor.CLOUDS}}
         thStyle={{position: 'absolute', top: 38, right: 10}}
       />
+      <ToastTipsCollection />
     </View>
   )
 }

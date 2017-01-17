@@ -4,6 +4,9 @@ import { race, put, call, fork, select } from 'redux-saga/effects'
 import * as actions from '../actions'
 import { api, geo } from '../services'
 
+// 配置常量
+const GET_WEATHER_TIMEOUT = 10000
+
 // 延迟方法
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
@@ -14,38 +17,35 @@ export function* getWeather() {
     const unit = yield select((state) => (state.setting.TEMPERATURE_UNIT))
     const {weatherData, timeout} = yield race({
       weatherData: call(api.getWeather, keyword, unit),
-      timeout: call(delay, 10000)
+      timeout: call(delay, GET_WEATHER_TIMEOUT)
     })
     if (weatherData) {
       yield put(actions.weatherFetchSucceed(weatherData))
     } else {
-      yield put(actions.weatherFetchFailed('weather api error'))
+      yield put(actions.systemMsgPush({mid: 'WEATHER_LOG', message: 'No data'}))
+      yield put(actions.weatherFetchFailed('No data'))
     }
   } catch (error) {
-    yield put(actions.weatherFetchFailed('weather api error'))
+    yield put(actions.systemMsgPush({mid: 'WEATHER_LOG', message: 'Unable to get weather data'}))
+    yield put(actions.weatherFetchFailed('Unable to get weather data'))
   }
 }
 // 获取地理信息
 export function* getGeolocation() {
   try {
-    // console.log('geolocation 1 start')
     const position = yield call(geo.getGeolocation, true)
     let {lat, long} = position
-    // console.log('geolocation 1 done', position)
     yield put(actions.geolocationFetchSucceed(position))
     yield put(actions.weatherFetch(`${lat},${long}`))
   } catch (g1Error) {
-    // console.log('geolocation 1 failed', g1Error)
     try {
-      // console.log('geolocation 2 start')
       const position = yield call(geo.getGeolocation)
       let {lat, long} = position
-      // console.log('geolocation 2 done', position)
       yield put(actions.geolocationFetchSucceed(position))
       yield put(actions.weatherFetch(`${lat},${long}`))
     } catch (g2Error) {
-      // console.log('geolocation 2 failed', g2Error)
-      yield put(actions.geolocationFetchFailed('geo error'))
+      yield put(actions.geolocationFetchFailed('Unable to get location data'))
+      yield put(actions.systemMsgPush({mid: 'GEO_LOG', message: 'Unable to get location data'}))
     }
   }
 }

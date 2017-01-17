@@ -49,3 +49,18 @@ export const REFRESH_HOME_SCENE = 'REFRESH_HOME_SCENE'
 export const refreshHomeScene = () => ({
   type: REFRESH_HOME_SCENE
 })
+
+export const SYSTEM_MSG_PUSH = 'SYSTEM_MSG_PUSH'
+export const SYSTEM_MSG_PULL = 'SYSTEM_MSG_PULL'
+
+export const systemMsgPush = (sysmsg) => ({
+  type: SYSTEM_MSG_PUSH,
+  sysmsg: {mid: 'SYSTEM_MESSAGE', ...sysmsg}
+}) 
+
+export const systemMsgPull = (sysmsgID) => ({
+  type: SYSTEM_MSG_PULL,
+  sysmsgID
+}) 
+
+

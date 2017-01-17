@@ -2,6 +2,7 @@
 import React from 'react'
 import {Image, View, StyleSheet, Text} from 'react-native'
 import {connect} from 'react-redux'
+import WeatherAnimatedImage from './WeatherAnimatedImage'
 // 引入常量或工具
 import {temperatureUnitOptions, weatherIcons} from '../utilities/weatherTools'
 import {flatColor} from '../utilities/styleTools'
@@ -69,45 +70,66 @@ const WeatherView = ({weatherState, settingState}) => {
     }
   } = weatherState;
   // 定义内部视图组件
-  let normalImage, loadImage, elmTips, elmKeyword, elmWeatherDescribe;
+  let normalImageView, loadImageView, elmTipsView, elmKeywordView, elmWeatherDescribeView;
   // 天气图片视图
-  if (istatus === '') normalImage = 
-  <Image style={styles.weatherIconImage} source={weatherIcons('10000')} />
-  if (istatus === 'succeed') normalImage = 
-  <Image style={styles.weatherIconImage} source={weatherIcons(icode)} />
-  if (istatus === 'failed') normalImage = 
-  <Image style={styles.weatherIconImage} source={weatherIcons('3200')} />
+  let weatherCode = ''
+  switch (istatus) {
+    case 'succeed':
+      weatherCode = icode
+      break;
+    case 'failed':
+      weatherCode = '3200'
+      break;
+    default:
+      weatherCode = '10000'
+      break;
+  }
+  normalImageView = <WeatherAnimatedImage style={{
+    width: 220,
+    height: 220,
+    alignSelf: 'center',
+  }} source={weatherIcons(weatherCode)} />
   // 加载图片视图
-  if (istatus === 'loading') loadImage = 
+  loadImageView = istatus === 'loading' ? 
   <View style={styles.loadImageView}>
     <Image style={styles.loadImage} source={loadImageGif} />
   </View>
+  : null
   // 提示信息视图
-  if (istatus === '') elmTips = 
-  <Text style={styles.tips}>Please enter a city name above.</Text>
-  if (istatus === 'loading') elmTips = 
-  <Text style={styles.tips}>loading...</Text>
-  if (istatus === 'failed') elmTips = 
-  <Text style={styles.tips}>City's weather information was not found.</Text>
+  let elmTipsText = ''
+  switch (istatus) {
+    case 'loading':
+      elmTipsText = 'loading...'
+      break;
+    case 'failed':
+      elmTipsText = 'City\'s weather information was not found'
+      break;
+    default:
+      elmTipsText = 'Please enter a city name above'
+      break;
+  }
+  elmTipsView = <Text style={styles.tips}>{elmTipsText}</Text>
   // 城市信息视图
-  if (icity !== '')  elmKeyword = 
+  elmKeywordView = icity !== '' ? 
   <Text style={styles.keyword}>{icity}</Text>
+  : null
   // 天气描述视图
-  if (istatus === 'succeed')  elmWeatherDescribe = 
+  elmWeatherDescribeView = istatus === 'succeed' ?
   <Text style={styles.weatherDescribe}>
     <Text style={styles.weatherType}>{itext}</Text>
     {' / '}
     <Text style={styles.weatherTemperature}>{itemp}</Text>
     {temperatureUnitOptions.find((option) => option.value === settingState.TEMPERATURE_UNIT).title}
   </Text>
+  : null
   // 渲染视图
   return (
     <View style={styles.componentWrap}>
-        {normalImage}
-        {loadImage}
-        {elmKeyword}
-        {elmWeatherDescribe}
-        {elmTips}
+        {normalImageView}
+        {loadImageView}
+        {elmKeywordView}
+        {elmWeatherDescribeView}
+        {elmTipsView}
     </View> 
   )
 }
