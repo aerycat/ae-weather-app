@@ -97,11 +97,11 @@ export const weatherIcons = (code) => {
     case '47':
       return require('../assets/img/day-storm-showers.png')
     case '3200':
-      return require('../assets/img/unknow.png')
+      return require('../assets/img/flower.png')
     case '10000':
-      return require('../assets/img/unknow.png')
+      return require('../assets/img/refresh.png')
     default:
-      return require('../assets/img/unknow.png')
+      return require('../assets/img/flower.png')
   }
 } 
 

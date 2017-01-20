@@ -7,15 +7,22 @@ export default class WeatherAnimatedImage extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      scale: new Animated.Value(.6)
+      scale: new Animated.Value(0)
+    }
+    this._startAnimation = () => {
+      this.state.scale.stopAnimation()
+      this.state.scale.setValue(.8)
+      Animated.spring(this.state.scale, {
+        toValue: 1,
+        friction: 3,
+      }).start()
     }
   }
-  componentDidUpdate() {
-    this.state.scale.setValue(.8)
-    Animated.spring(this.state.scale, {
-      toValue: 1,
-      friction: 3,
-    }).start()
+  componentWillMount () {
+    this._startAnimation()
+  }
+  componentWillReceiveProps() {
+    this._startAnimation()
   }
   render () {
     return (
@@ -24,7 +31,9 @@ export default class WeatherAnimatedImage extends Component {
         transform: [
           {scale: this.state.scale}
         ]
-      }} source={this.props.source} />
+      }} 
+      source={this.props.source}
+    />
     )
   }
 }

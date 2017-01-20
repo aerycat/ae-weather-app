@@ -1,9 +1,13 @@
 export const WEATHER_FETCH = 'WEATHER_FETCH'
+export const WEATHER_REFETCH = 'WEATHER_REFETCH'
 export const WEATHER_FETCH_SUCCEED = 'WEATHER_FETCH_SUCCEED'
 export const WEATHER_FETCH_FAILED = 'WEATHER_FETCH_FAILED'
 export const weatherFetch = (keyword) => ({
   type: WEATHER_FETCH,
   keyword
+})
+export const weatherRefetch = () => ({
+  type: WEATHER_REFETCH
 })
 export const weatherFetchSucceed = (weatherData) => ({
   type: WEATHER_FETCH_SUCCEED,

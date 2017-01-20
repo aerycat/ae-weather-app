@@ -49,10 +49,12 @@ const weather = (state = _stateInit.weather, action) => {
   switch (action.type) {
     case actions.WEATHER_FETCH:
       return {...state, status: 'loading', keyword: action.keyword, errorMsg: ''}
+    case actions.WEATHER_REFETCH:
+      return {...state, status: 'loading', errorMsg: ''}
     case actions.WEATHER_FETCH_SUCCEED:
-      return {...action.weatherData, status: 'succeed', keyword: '', errorMsg: ''}
+      return {...action.weatherData, status: 'succeed', keyword: state.keyword, errorMsg: ''}
     case actions.WEATHER_FETCH_FAILED:
-      return {..._stateInit.weather, status: 'failed', keyword: '', errorMsg: action.errorMsg}
+      return {..._stateInit.weather, status: 'failed', keyword: state.keyword, errorMsg: action.errorMsg}
     default:
       return state
   }

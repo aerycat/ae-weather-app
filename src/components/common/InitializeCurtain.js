@@ -3,7 +3,7 @@ import React, {Component} from 'react'
 import {View, Image, Animated, Easing} from 'react-native'
 import {flatColor} from '../../utilities/styleTools'
 // 引入图片
-const logoImage = require('../../assets/img/unknow.png')
+const logoImage = require('../../assets/img/flower.png')
 
 // 创建组件
 // 不含动画

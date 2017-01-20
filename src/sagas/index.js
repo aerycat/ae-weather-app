@@ -39,13 +39,14 @@ export function* getGeolocation() {
     yield put(actions.weatherFetch(`${lat},${long}`))
   } catch (g1Error) {
     try {
+      yield put(actions.systemMsgPush({mid: 'GEO_LOG', message: 'Switch to low-precision GEO information query'})) 
       const position = yield call(geo.getGeolocation)
       let {lat, long} = position
       yield put(actions.geolocationFetchSucceed(position))
       yield put(actions.weatherFetch(`${lat},${long}`))
     } catch (g2Error) {
-      yield put(actions.geolocationFetchFailed('Unable to get location data'))
       yield put(actions.systemMsgPush({mid: 'GEO_LOG', message: 'Unable to get location data'}))
+      yield put(actions.geolocationFetchFailed('Unable to get location data'))
     }
   }
 }
@@ -65,7 +66,7 @@ export function* refreshHomeScene() {
 
 // 监听事件
 export function* watchGetWeather() {
-  yield* takeLatest(actions.WEATHER_FETCH, getWeather)
+  yield* takeLatest([actions.WEATHER_FETCH, actions.WEATHER_REFETCH], getWeather)
 }
 export function* watchGetGeolocation() {
   yield* takeLatest(actions.GEOLOCATION_FETCH, getGeolocation)
