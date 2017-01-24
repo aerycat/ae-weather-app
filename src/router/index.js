@@ -51,14 +51,14 @@ class NavRootContainer extends Component {
   _renderHeader = (props) => {
     let {scene: {route: {key, title: customTitle}}} = props
     let {sceneKey} = parseKey(key)
-    return key && SceneConfigMap[sceneKey] && SceneConfigMap[sceneKey].noHeader ? undefined : 
+    return key && SceneConfigMap[sceneKey] && SceneConfigMap[sceneKey].noHeader ? null : 
       <NavigationHeader
         renderTitleComponent={() => (
           customTitle || SceneConfigMap[sceneKey].title ? 
             <NavigationHeader.Title>
               {customTitle || SceneConfigMap[sceneKey].title}
             </NavigationHeader.Title>
-            : undefined
+            : null
         )}
         onNavigateBack={this._navigator.pop}
         {...props}

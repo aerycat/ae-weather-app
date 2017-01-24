@@ -4,10 +4,9 @@ import {View, StatusBar} from 'react-native'
 // 引入通用控件组件
 import SystemTimer from '../containers/SystemTimer'
 import TextInputRow from '../containers/TextInputRow'
-import WeatherView from '../containers/WeatherView'
+import WeatherViewSwiper from '../containers/WeatherViewSwiper'
 import IconButton from './common/IconButton'
 import ToastTipsCollection from './common/ToastTipsCollection'
-import Swiper from 'react-native-swiper'
 // 引入常量或工具
 import {flatColor} from '../utilities/styleTools'
 // 创建组件
@@ -19,10 +18,8 @@ class HomeScene extends Component {
     }
   }
   render () {
-    const swiperComponent = this.state.swiperHeight > 0 ? (
-      <Swiper height={this.state.swiperHeight} showsButtons={true} activeDotColor={flatColor.GREEN_SEA} showsButtons={false}>
-        <WeatherView />
-      </Swiper>
+    const WeatherViewSwiperComponent = this.state.swiperHeight > 0 ? (
+      <WeatherViewSwiper swiperHeight={this.state.swiperHeight}/>
     ) : null
     return (
       <View style={{flex: 1, flexDirection: 'column'}}>
@@ -35,7 +32,7 @@ class HomeScene extends Component {
             this.setState({swiperHeight: height})
           }
         }>
-          {swiperComponent}
+          {WeatherViewSwiperComponent}
         </View>
         <IconButton 
           pressAction={() => {this.props.navigator.push({key: 'Setting'})}} 
@@ -50,7 +47,3 @@ class HomeScene extends Component {
 }
 
 export default HomeScene
-
-// <View style={{flex: 1, justifyContent: 'center', backgroundColor: flatColor.AMETHYST}}></View>
-// <View style={{flex: 1, justifyContent: 'center', backgroundColor: flatColor.BELIZE_HOLE}}></View>
-// <View style={{flex: 1, justifyContent: 'center', backgroundColor: flatColor.ORANGE}}></View>

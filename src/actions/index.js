@@ -1,21 +1,43 @@
+export const WEATHER_ADD = 'WEATHER_ADD'
+export const WEATHER_REOMVE_MORE = 'WEATHER_REOMVE_MORE'
+export const WEATHER_KEYWORD_UPDATE = 'WEATHER_KEYWORD_UPDATE'
 export const WEATHER_FETCH = 'WEATHER_FETCH'
-export const WEATHER_REFETCH = 'WEATHER_REFETCH'
+export const WEATHER_FETCH_ALL = 'WEATHER_FETCH_ALL'
+export const WEATHER_FETCH_START = 'WEATHER_FETCH_START'
 export const WEATHER_FETCH_SUCCEED = 'WEATHER_FETCH_SUCCEED'
 export const WEATHER_FETCH_FAILED = 'WEATHER_FETCH_FAILED'
-export const weatherFetch = (keyword) => ({
-  type: WEATHER_FETCH,
+export const weatherAdd = (keyword) => ({
+  type: WEATHER_ADD,
   keyword
 })
-export const weatherRefetch = () => ({
-  type: WEATHER_REFETCH
+export const weatherRemoveMore = () => ({
+  type: WEATHER_REOMVE_MORE
 })
-export const weatherFetchSucceed = (weatherData) => ({
+export const weatherFetch = (wid) => ({
+  type: WEATHER_FETCH,
+  wid
+})
+export const weatherKeywordUpdate = (wid, keyword) => ({
+  type: WEATHER_KEYWORD_UPDATE,
+  wid,
+  keyword
+})
+export const weatherFetchAll = () => ({
+  type: WEATHER_FETCH_ALL
+})
+export const weatherFetchStart = (wid) => ({
+  type: WEATHER_FETCH_START,
+  wid
+})
+export const weatherFetchSucceed = (wid, weatherData) => ({
   type: WEATHER_FETCH_SUCCEED,
-  weatherData
+  weatherData,
+  wid
 })
-export const weatherFetchFailed = (errorMsg) => ({
+export const weatherFetchFailed = (wid, errorMsg) => ({
   type: WEATHER_FETCH_FAILED,
-  errorMsg
+  errorMsg,
+  wid
 })
 
 export const GEOLOCATION_FETCH = 'GEOLOCATION_FETCH'

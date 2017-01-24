@@ -1,11 +1,12 @@
 /* 设置页面场景组件 */
 import React, {Component} from 'react'
-import {View} from 'react-native'
+import {View, ScrollView, TouchableHighlight, Text} from 'react-native'
 import {connect} from 'react-redux'
 // 引入通用控件组件
 import Separator from './common/Separator'
 import SwitchOption from './common/SwitchOption'
 import TextOption from './common/TextOption'
+import TextOptionWithRemove from './common/TextOptionWithRemove'
 import TextInputGroup from './common/TextInputGroup'
 import SelectorGroup from './common/SelectorGroup'
 // 引入常量或工具
@@ -38,12 +39,12 @@ class SettingScene extends Component  {
             <TextInputGroup 
               textInputProps={{
                 onSubmitEditing: (event) => {
-                  this._settingUpdate({HOMEPAGE_CITY_NAME: event.nativeEvent.text})
+                  this._settingUpdate({HOMEPAGE_CITY: event.nativeEvent.text})
                   this._navigationPop()
                 },
                 autoFocus: false,
                 placeholder: 'Enter a city name',
-                defaultValue: this.props.settingState.HOMEPAGE_CITY_NAME
+                defaultValue: this.props.settingState.HOMEPAGE_CITY
               }}
             />
             </View>
@@ -63,6 +64,72 @@ class SettingScene extends Component  {
             />
           </View>
         )
+      case 'MoreCities':
+        return (
+          <View style={{flex: 1, flexDirection: 'column'}}>
+            <View style={{flexDirection: 'row'}}>
+              <TouchableHighlight
+                style={{
+                  flex: 1,
+                  height: 32,
+                  marginVertical: 12,
+                  marginHorizontal: 12,
+                  justifyContent: 'center',
+                  backgroundColor: flatColor.WHILE
+                }}
+                underlayColor={flatColor.TURQUOISE}
+              >
+                <Text 
+                  style={{
+                    alignSelf: 'center',
+                    fontSize: 16,
+                    color: flatColor.WET_ASPHALT
+                  }}
+                >
+                  Add City
+                </Text>
+              </TouchableHighlight>
+              <TouchableHighlight
+                onPress={() => {
+                  let mcList = this.refs.mcList
+                  
+                  if (!mcList || !mcList.props.children.length) return
+                  let moreCities = []
+                  mcList.props.children.forEach((component) => {
+                    if (component.props.label) moreCities.push(component.props.label)
+                  })
+                  this._settingUpdate({MORE_CITIES: moreCities})
+                }}
+                style={{
+                  flex: 1,
+                  height: 30,
+                  marginVertical: 12,
+                  marginHorizontal: 12,
+                  justifyContent: 'center',
+                  backgroundColor: flatColor.WHILE
+                }}
+                underlayColor={flatColor.TURQUOISE}
+              >
+                <Text 
+                  style={{
+                    alignSelf: 'center',
+                    fontSize: 16,
+                    color: flatColor.WET_ASPHALT
+                  }}
+                >
+                  Save
+                </Text>
+              </TouchableHighlight>
+            </View>
+            <ScrollView ref='mcList'>
+              {
+                (this.props.settingState.MORE_CITIES.length > 0 ? this.props.settingState.MORE_CITIES : ['New York', 'Tokyo']).map((city, index) => (
+                  <TextOptionWithRemove key={index} label={city} />
+                ))
+              }
+            </ScrollView>
+          </View>
+        )
       // 默认选择界面
       default:
         return (
@@ -77,13 +144,18 @@ class SettingScene extends Component  {
             />
             {
               /* 自定义城市拦控件切换 */
-              this.props.settingState.USE_GEOLOCATION ? undefined :
+              this.props.settingState.USE_GEOLOCATION ? null :
                 <TextOption 
                   label='Custom City'
-                  defaultValue={this.props.settingState.HOMEPAGE_CITY_NAME}
+                  defaultValue={this.props.settingState.HOMEPAGE_CITY}
                   dispatchAction={() => {this._navigationPush({key: 'Setting:CityName', title: 'Custom City'})}}
                 />
             }
+            <TextOption 
+              label='More Cities' 
+              defaultValue={this.props.settingState.MORE_CITIES && this.props.settingState.MORE_CITIES.length} 
+              dispatchAction={() => {this._navigationPush({key: 'Setting:MoreCities', title: 'More Cities'})}}
+            />
             <Separator />
             <TextOption 
               label='Temperature Unit'

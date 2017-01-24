@@ -1,4 +1,9 @@
 /* 资源与服务 */
+import { 
+  GEOLOCATION_FETCH_HA_TIMEOUT, 
+  GEOLOCATION_FETCH_TIMEOUT, 
+  GEOLOCATION_MAXIMUM_AGE 
+} from '../utilities/constant.js'
 const prefix = 'https://query.yahooapis.com/v1/public/yql?q='
 const suffix = '&format=json'
 
@@ -44,7 +49,15 @@ export const api = {
 }
 // 获取地理信息
 const geoFetch = function (enableHighAccuracy = false) {
-  let options =  enableHighAccuracy ? {timeout: 10000, maximumAge: 1000, enableHighAccuracy: true} : {timeout: 3000, maximumAge: 1000, enableHighAccuracy: false}
+  let options =  enableHighAccuracy ? {
+    timeout: GEOLOCATION_FETCH_HA_TIMEOUT, 
+    maximumAge: GEOLOCATION_MAXIMUM_AGE, 
+    enableHighAccuracy: true
+  } : {
+    timeout: GEOLOCATION_FETCH_TIMEOUT, 
+    maximumAge: GEOLOCATION_MAXIMUM_AGE, 
+    enableHighAccuracy: false
+  }
   return new Promise(function (resolve, reject) {
     navigator.geolocation.getCurrentPosition(resolve, reject, options);
   })

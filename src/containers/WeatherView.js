@@ -1,12 +1,15 @@
 /* 天气信息显示组件 */
 import React from 'react'
 import {Image, View, StyleSheet, Text, TouchableOpacity} from 'react-native'
-import {connect} from 'react-redux'
 import WeatherAnimatedImage from './WeatherAnimatedImage'
 // 引入常量或工具
-import {temperatureUnitOptions, weatherIcons} from '../utilities/weatherTools'
+import {temperatureUnitOptions} from '../utilities/weatherTools'
 import * as actions from '../actions'
 import {flatColor} from '../utilities/styleTools'
+
+// 引入加载状态图片
+const loadImageGif = require('../assets/img/loading.gif')
+
 // 定义组件样式
 const styles = StyleSheet.create({
   componentWrap: {
@@ -57,12 +60,12 @@ const styles = StyleSheet.create({
     color: flatColor.GREEN_SEA
   }
 });
-// 引入加载状态图片
-const loadImageGif = require('../assets/img/loading.gif');
+
 // 创建组件
-const WeatherView = ({weatherState, settingState, weatherRefetch}) => {
+const WeatherView = ({weatherState, temperatureUnitValue, weatherFetch}) => {
   // 解构天气状态数据
   const {
+    wid: iwid,
     status: istatus,
     keyword: ikeyword,
     channel: {
@@ -71,7 +74,9 @@ const WeatherView = ({weatherState, settingState, weatherRefetch}) => {
         condition: {date: idate, temp: itemp, text: itext, code: icode}
       }
     }
-  } = weatherState;
+  } = weatherState
+  const temperatureUnit = temperatureUnitOptions.find((option) => option.value === temperatureUnitValue)
+  const temperatureUnitTitle = temperatureUnit ? temperatureUnit.title : ''
   // 定义内部视图组件
   let normalImageView, loadImageView, elmTipsView, elmKeywordView, elmWeatherDescribeView;
   // 天气图片视图
@@ -87,26 +92,30 @@ const WeatherView = ({weatherState, settingState, weatherRefetch}) => {
       weatherCode = '3200'
       break;
   }
-  normalImageView = istatus !== 'loading' ? (
+  normalImageView = istatus === 'loading' ? 
+  (
+    <View style={styles.loadImageView}>
+      <Image 
+        style={styles.loadImage} 
+        source={loadImageGif}
+      />
+    </View>
+  ) : (
     <TouchableOpacity 
       style={styles.weatherIconImage}
-      onPress={weatherRefetch}>
+      onPress={() => {weatherFetch(iwid)}}>
       <WeatherAnimatedImage 
         style={{
           width: 220,
           height: 220,
           alignSelf: 'center'
         }} 
-        source={weatherIcons(weatherCode)} 
+        wid={iwid}
+        status={istatus}
+        weatherCode={weatherCode} 
       />
     </TouchableOpacity>
-  ) : null
-  // 加载图片视图
-  loadImageView = istatus === 'loading' ? 
-  (<View style={styles.loadImageView}>
-    <Image style={styles.loadImage} source={loadImageGif} />
-  </View>)
-  : null
+  )
   // 提示信息视图
   let elmTipsText = ''
   switch (istatus) {
@@ -134,29 +143,17 @@ const WeatherView = ({weatherState, settingState, weatherRefetch}) => {
     <Text style={styles.weatherType}>{itext}</Text>
     {' / '}
     <Text style={styles.weatherTemperature}>{itemp}</Text>
-    {temperatureUnitOptions.find((option) => option.value === settingState.TEMPERATURE_UNIT).title}
+    {temperatureUnitTitle}
   </Text>
   : null
   // 渲染视图
   return (
     <View style={styles.componentWrap}>
       {normalImageView}
-      {loadImageView}
       {elmKeywordView}
       {elmWeatherDescribeView}
       {elmTipsView}
     </View> 
   )
 }
-// 链接到store
-WeatherView = connect(
-  (state) => ({
-    weatherState: state.weather,
-    settingState: state.setting
-  }),
-  {
-    weatherRefetch: actions.weatherRefetch
-  }
-)(WeatherView)
-
 export default WeatherView

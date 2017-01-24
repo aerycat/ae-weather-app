@@ -41,7 +41,7 @@ export default ({label, defaultValue, dispatchAction}) => (
       <Text style={styles.value}>
         {defaultValue}
       </Text>
-        {dispatchAction ? <Icon name='chevron-right' style={{alignSelf: 'center', fontSize: 16}} color={flatColor.SILVER} /> : undefined}
+        {dispatchAction ? <Icon name='chevron-right' style={{alignSelf: 'center', fontSize: 16}} color={flatColor.SILVER} /> : null}
     </View>
   </TouchableHighlight>
 )

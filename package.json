@@ -16,6 +16,7 @@
     "redux": "^3.6.0",
     "redux-persist": "^4.0.1",
     "redux-saga": "^0.13.0",
+    "uuid": "^3.0.1",
     "whatwg-fetch": "^2.0.1"
   },
   "devDependencies": {

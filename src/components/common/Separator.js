@@ -27,6 +27,6 @@ const styles = StyleSheet.create({
 export default ({label}) => (
   <View style={styles.wrap}>
     <Text style={styles.empty}></Text>
-    {label ? <Text style={styles.label}>{label}</Text> : undefined}
+    {label ? <Text style={styles.label}>{label}</Text> : null}
   </View>
 )

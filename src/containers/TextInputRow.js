@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import TextInputGroup from '../components/common/TextInputGroup'
 import IconButton from '../components/common/IconButton'
 // 引入常量或工具
+import { WEATHER_DEFAULT_ID } from '../utilities/constant.js'
 import * as actions from '../actions'
 import {flatColor} from '../utilities/styleTools'
 // 定义组件样式
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
   }
 })
 // 创建组件
-const TextInputRow = ({placeholder, geolocation, weatherFetch, geolocationFetch}) => {
+const TextInputRow = ({placeholder, geolocation, weatherKeywordUpdate, weatherFetch, geolocationFetch}) => {
   return (
     <View style={styles.componentWrap}>
       <View style={styles.rowStyle}>
@@ -35,7 +36,8 @@ const TextInputRow = ({placeholder, geolocation, weatherFetch, geolocationFetch}
           bgColor={flatColor.CLOUDS}
           textInputProps={{
             onSubmitEditing: (event) => {
-              weatherFetch(event.nativeEvent.text)
+              weatherKeywordUpdate(WEATHER_DEFAULT_ID, event.nativeEvent.text)
+              weatherFetch(WEATHER_DEFAULT_ID)
             },
             placeholder,
             returnKeyType: 'search'
@@ -66,6 +68,7 @@ TextInputRow = connect(
     geolocation: state.geolocation
   }),
   {
+    weatherKeywordUpdate: actions.weatherKeywordUpdate,
     weatherFetch: actions.weatherFetch,
     geolocationFetch: actions.geolocationFetch
   }

@@ -1,79 +1,112 @@
 /* reducers */
 import { combineReducers } from 'redux'
 import { NavigationExperimental } from 'react-native'
+import { WEATHER_DEFAULT_ID } from '../utilities/constant.js'
+import uuidV4 from 'uuid/v4'
 import * as actions from '../actions'
-import _array from 'lodash/array'
+import _LO from 'lodash'
 // 引用NavigationExperimental中的方法
 const {StateUtils: NavigationStateUtils} = NavigationExperimental
 // 初始化状态
-const _stateInit = {
-  weather: {
-    status: '',
-    keyword: '',
-    errorMsg: '',
-    channel: {
-      location: {
-        city: '',
-        country: '',
-        region: ''
-      },
-      item: {
-        condition: {
-          code: '',
-          date: '',
-          temp: '',
-          text: ''
-        }
+const _weather = {
+  wid: '',
+  status: '',
+  keyword: '',
+  errorMsg: '',
+  channel: {
+    location: {
+      city: '',
+      country: '',
+      region: ''
+    },
+    item: {
+      condition: {
+        code: '',
+        date: '',
+        temp: '',
+        text: ''
       }
     }
-  },
+  }
+}
+const _state = {
+  weathers: [{..._weather, wid: WEATHER_DEFAULT_ID}],
   geolocation: {
-    status: '', 
-    lat: '', 
-    long: '', 
+    status: '',
+    lat: '',
+    long: '',
     errorMsg: ''
   },
   navigation: {
     index: 0,
-    routes: [{key: 'Home'}]
+    routes: [{ key: 'Home' }]
   },
   setting: {
-    HOMEPAGE_CITY_NAME: '',
+    HOMEPAGE_CITY: 'Shenzhen',
+    MORE_CITIES: [],
     TEMPERATURE_UNIT: 'c',
-    USE_GEOLOCATION: true
+    USE_GEOLOCATION: false
   },
   systemMsg: []
 }
 // 天气reducer
-const weather = (state = _stateInit.weather, action) => {
+const weather = (state, action) => {
   switch (action.type) {
+    case actions.WEATHER_ADD:
+      return {...state, wid: uuidV4(), keyword: action.keyword}
     case actions.WEATHER_FETCH:
-      return {...state, status: 'loading', keyword: action.keyword, errorMsg: ''}
-    case actions.WEATHER_REFETCH:
+      return {...state, status: 'ready', errorMsg: ''}
+    case actions.WEATHER_KEYWORD_UPDATE:
+      return {...state, keyword: action.keyword}
+    case actions.WEATHER_FETCH_ALL:
+      return {...state, status: 'ready', errorMsg: ''}
+    case actions.WEATHER_FETCH_START:
       return {...state, status: 'loading', errorMsg: ''}
     case actions.WEATHER_FETCH_SUCCEED:
-      return {...action.weatherData, status: 'succeed', keyword: state.keyword, errorMsg: ''}
+      return {...state, ...action.weatherData, status: 'succeed', keyword: state.keyword, errorMsg: ''}
     case actions.WEATHER_FETCH_FAILED:
-      return {..._stateInit.weather, status: 'failed', keyword: state.keyword, errorMsg: action.errorMsg}
+      return {...state, status: 'failed', keyword: state.keyword, errorMsg: action.errorMsg}
+    default:
+      return state
+  }
+}
+const weathers = (state = _state.weathers, action) => {
+  switch (action.type) {
+    case actions.WEATHER_ADD:
+      return state.length > 5 ? state : [...state, weather(_weather, action)]
+    case actions.WEATHER_REOMVE_MORE:
+      return _LO.filter(state, ['wid', WEATHER_DEFAULT_ID])
+    case actions.WEATHER_KEYWORD_UPDATE:
+      return _LO.map(state, (item) => item.wid === action.wid ? weather(item, action) : item)
+    case actions.WEATHER_FETCH:
+      return _LO.map(state, (item) => item.wid === action.wid ? weather(item, action) : item)
+    case actions.WEATHER_FETCH_ALL:
+      return _LO.map(state, (item) => weather(item, action))
+    case actions.WEATHER_FETCH_START:
+      return _LO.map(state, (item) => item.wid === action.wid ? weather(item, action) : item)
+    case actions.WEATHER_FETCH_SUCCEED:
+      return _LO.map(state, (item) => item.wid === action.wid ? weather(item, action) : item)
+    case actions.WEATHER_FETCH_FAILED:
+      return _LO.map(state, (item) => item.wid === action.wid ? weather(item, action) : item)
     default:
       return state
   }
 }
 // 地理信息reducer
-const geolocation = (state = _stateInit.geolocation, action) => {
+const geolocation = (state = _state.geolocation, action) => {
   switch (action.type) {
     case actions.GEOLOCATION_FETCH:
       return {...state, status: 'loading', errorMsg: ''}
     case actions.GEOLOCATION_FETCH_SUCCEED:
       return {status: 'succeed', lat: action.lat.toString(), long: action.long.toString(), errorMsg: ''}
     case actions.GEOLOCATION_FETCH_FAILED:
-      return {..._stateInit.geolocation, status: 'failed', errorMsg: action.errorMsg}
+      return {..._state.geolocation, status: 'failed', errorMsg: action.errorMsg}
     default:
       return state
   }
 }
 // 导航reducer
-const navigation = (state = _stateInit.navigation, action) => {
+const navigation = (state = _state.navigation, action) => {
   switch (action.type) {
     case actions.NAVIGATION_PUSH:
       return  NavigationStateUtils.push(state, action.route)
@@ -84,7 +117,7 @@ const navigation = (state = _stateInit.navigation, action) => {
   }
 }
 // 设置reducer
-const setting = (state = _stateInit.setting, action) => {
+const setting = (state = _state.setting, action) => {
   switch (action.type) {
     case actions.SETTING_UPDATE:
       return  {...state, ...action.setting}
@@ -93,10 +126,10 @@ const setting = (state = _stateInit.setting, action) => {
   }
 }
 // 系统消息
-const systemMsg = (state = _stateInit.systemMsg, action) => {
+const systemMsg = (state = _state.systemMsg, action) => {
   switch (action.type) {
     case actions.SYSTEM_MSG_PUSH:
-      return  _array.uniqBy([action.sysmsg, ...state], 'mid')
+      return  _LO.uniqBy([action.sysmsg, ...state], 'mid')
     case actions.SYSTEM_MSG_PULL:
       return  state.filter((sysmsg) => sysmsg.mid !== action.sysmsgID)
     default:
@@ -104,7 +137,7 @@ const systemMsg = (state = _stateInit.systemMsg, action) => {
   }
 }
 
-const reducers =  combineReducers({ weather, geolocation, navigation, setting, systemMsg })
+const reducers =  combineReducers({ weathers, geolocation, navigation, setting, systemMsg })
 
 export default function root(state, action) {
   return reducers(state, action)

@@ -21,7 +21,7 @@ export default ({options, defaultValue, pressAction}) => {
           >
             <View style={{flexDirection: 'row', height: 48, backgroundColor: flatColor.WHILE}}>
               <Text style={{flex: 1, fontSize: 16, paddingLeft: 16, color: flatColor.WET_ASPHALT, alignSelf: 'center'}}> {option.title} </Text>
-              {option.value === defaultValue ? <Icon name='check' style={{fontSize: 20, alignSelf: 'center', paddingRight: 16}} color={flatColor.TURQUOISE} /> : undefined}
+              {option.value === defaultValue ? <Icon name='check' style={{fontSize: 20, alignSelf: 'center', paddingRight: 16}} color={flatColor.TURQUOISE} /> : null}
             </View>
           </TouchableHighlight>
         ))}
