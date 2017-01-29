@@ -6,9 +6,12 @@ import {connect} from 'react-redux'
 import Separator from './common/Separator'
 import SwitchOption from './common/SwitchOption'
 import TextOption from './common/TextOption'
-import TextOptionWithRemove from './common/TextOptionWithRemove'
-import TextInputGroup from './common/TextInputGroup'
 import SelectorGroup from './common/SelectorGroup'
+import ToastTipsCollection from './common/ToastTipsCollection'
+// 设置子项
+import SettingDefaultCity from './SettingDefaultCity'
+import SettingTemperatureUnit from './SettingTemperatureUnit'
+import SettingMoreCities from './SettingMoreCities'
 // 引入常量或工具
 import * as actions from '../actions'
 import {flatColor} from '../utilities/styleTools'
@@ -28,111 +31,50 @@ class SettingScene extends Component  {
   _navigationPop () {
     this.props.navigator && this.props.navigator.pop()
   }
-
+  
   render () {
+    let currentScene = null
     switch (this.props.routeQuery) {
       // 城市名称输入控件
-      case 'CityName':
-        return (
-          <View style={{flex: 1, flexDirection: 'column'}}>
-            <View style={{flexDirection: 'row'}}>
-            <TextInputGroup 
-              textInputProps={{
-                onSubmitEditing: (event) => {
-                  this._settingUpdate({HOMEPAGE_CITY: event.nativeEvent.text})
-                  this._navigationPop()
-                },
-                autoFocus: false,
-                placeholder: 'Enter a city name',
-                defaultValue: this.props.settingState.HOMEPAGE_CITY
-              }}
-            />
-            </View>
-          </View>
+      case 'DefaultCity':
+        currentScene = (
+          <SettingDefaultCity 
+            defaultValue={this.props.settingState.HOMEPAGE_CITY} 
+            submitAction={
+              (event) => {
+                this._settingUpdate({HOMEPAGE_CITY: event.nativeEvent.text})
+                this._navigationPop()
+              }
+            }
+          />
         )
+        break
       // 天气单位选择控件
       case 'TemperatureUnit':
-        return (
-          <View style={{flex: 1, flexDirection: 'column'}}>
-            <SelectorGroup 
-              options={temperatureUnitOptions}
-              defaultValue={this.props.settingState.TEMPERATURE_UNIT}
-              pressAction={(value) => {
+        currentScene = (
+          <SettingTemperatureUnit 
+            defaultValue={this.props.settingState.TEMPERATURE_UNIT}
+            selectAction={
+              (value) => {
                 this._settingUpdate({TEMPERATURE_UNIT: value})
                 this._navigationPop()
-              }}
-            />
-          </View>
-        )
-      case 'MoreCities':
-        return (
-          <View style={{flex: 1, flexDirection: 'column'}}>
-            <View style={{flexDirection: 'row'}}>
-              <TouchableHighlight
-                style={{
-                  flex: 1,
-                  height: 32,
-                  marginVertical: 12,
-                  marginHorizontal: 12,
-                  justifyContent: 'center',
-                  backgroundColor: flatColor.WHILE
-                }}
-                underlayColor={flatColor.TURQUOISE}
-              >
-                <Text 
-                  style={{
-                    alignSelf: 'center',
-                    fontSize: 16,
-                    color: flatColor.WET_ASPHALT
-                  }}
-                >
-                  Add City
-                </Text>
-              </TouchableHighlight>
-              <TouchableHighlight
-                onPress={() => {
-                  let mcList = this.refs.mcList
-                  
-                  if (!mcList || !mcList.props.children.length) return
-                  let moreCities = []
-                  mcList.props.children.forEach((component) => {
-                    if (component.props.label) moreCities.push(component.props.label)
-                  })
-                  this._settingUpdate({MORE_CITIES: moreCities})
-                }}
-                style={{
-                  flex: 1,
-                  height: 30,
-                  marginVertical: 12,
-                  marginHorizontal: 12,
-                  justifyContent: 'center',
-                  backgroundColor: flatColor.WHILE
-                }}
-                underlayColor={flatColor.TURQUOISE}
-              >
-                <Text 
-                  style={{
-                    alignSelf: 'center',
-                    fontSize: 16,
-                    color: flatColor.WET_ASPHALT
-                  }}
-                >
-                  Save
-                </Text>
-              </TouchableHighlight>
-            </View>
-            <ScrollView ref='mcList'>
-              {
-                (this.props.settingState.MORE_CITIES.length > 0 ? this.props.settingState.MORE_CITIES : ['New York', 'Tokyo']).map((city, index) => (
-                  <TextOptionWithRemove key={index} label={city} />
-                ))
               }
-            </ScrollView>
-          </View>
+            }
+          />
         )
+        break
+      case 'MoreCities':
+        currentScene = (
+          <SettingMoreCities 
+            moreCities={this.props.settingState.MORE_CITIES} 
+            settingUpdate={this.props.settingUpdate}
+            systemMsgPush={this.props.systemMsgPush}
+          />
+        )
+        break
       // 默认选择界面
       default:
-        return (
+        currentScene = (
           <View style={{flex: 1, flexDirection: 'column'}}>
             <Separator label='Default City' />
             <SwitchOption 
@@ -148,7 +90,7 @@ class SettingScene extends Component  {
                 <TextOption 
                   label='Custom City'
                   defaultValue={this.props.settingState.HOMEPAGE_CITY}
-                  dispatchAction={() => {this._navigationPush({key: 'Setting:CityName', title: 'Custom City'})}}
+                  dispatchAction={() => {this._navigationPush({key: 'Setting:DefaultCity', title: 'Custom City'})}}
                 />
             }
             <TextOption 
@@ -164,16 +106,25 @@ class SettingScene extends Component  {
             />
             <Separator />
             <TextOption label='Version' defaultValue={appVersion} />
+            
           </View>
         )
+        break
     }
+    return (
+      <View style={{flex: 1}}>
+        {currentScene}
+        <ToastTipsCollection />
+      </View>
+    )
   }
 }
 // 链接到store
 SettingScene = connect(
   (state) => ({settingState: state.setting}),
   {
-    settingUpdate: actions.settingUpdate
+    settingUpdate: actions.settingUpdate,
+    systemMsgPush: actions.systemMsgPush
   }
 )(SettingScene)
 

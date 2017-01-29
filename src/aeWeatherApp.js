@@ -46,14 +46,13 @@ export default class aeWeatherApp extends Component {
     persistStore(store, {storage: AsyncStorage, whitelist: ['setting']}, () => {
       this.setState({initializeComplete: true})
       store.dispatch(actions.refreshHomeScene())
+      // store.dispatch(actions.navigationPush({key: 'Setting:MoreCities', title: 'More Cities'}))
     })
   }
   render() {
     return (
       <Provider store={store}>
-        {
-          this.state.initializeComplete ? <NavRootContainer /> : <InitializeCurtain />
-        }
+        {this.state.initializeComplete ? (<NavRootContainer />) : (<InitializeCurtain />)}
       </Provider>
     )
   }
