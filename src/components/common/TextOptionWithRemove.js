@@ -50,13 +50,3 @@ export default class TextOptionWithRemove extends Component {
     )
   }
 }
-// export default ({label}) => (
-//   <View style={styles.wrap}>
-//     <TouchableHighlight style={styles.touchRight} underlayColor={flatColor.TURQUOISE}>
-//       <Text style={styles.label}>{label}</Text>
-//     </TouchableHighlight>
-//     <TouchableHighlight style={styles.touchLeft} underlayColor={flatColor.WET_ASPHALT}>
-//       <Icon name='cross' style={styles.iconButton} color={flatColor.SILVER} />
-//     </TouchableHighlight>
-//   </View>
-// )

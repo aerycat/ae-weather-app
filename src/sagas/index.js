@@ -74,7 +74,7 @@ export function* refreshHomeScene(dispatch) {
       yield put(actions.weatherAdd(moreCities[index]))
       index++
     }
-    if (useGeolocation) yield getGeolocation()
+    if (useGeolocation) yield put(actions.geolocationFetch())
     yield put(actions.weatherFetchAll())
   }
 }

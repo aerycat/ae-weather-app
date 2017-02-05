@@ -6,6 +6,10 @@
  *            Cmd+D or shake for dev menu
  *  android  Double tap R on your keyboard to reload,
  *            Shake or press menu button for dev menu
+ * 
+ *  version config:
+ *  android/app/build.gradle
+ *  os/aeWeatherApp/Info.plist
 **/
 import React, {Component} from 'react'
 import {AsyncStorage} from 'react-native'

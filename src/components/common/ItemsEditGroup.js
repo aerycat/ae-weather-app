@@ -1,6 +1,6 @@
 /* 选择器组件 */
 import React, {Component} from 'react'
-import {View, ScrollView, KeyboardAvoidingView, TouchableHighlight, Text, Modal, StyleSheet} from 'react-native'
+import {View, ScrollView, KeyboardAvoidingView, TouchableHighlight, Text, Modal, Alert, StyleSheet} from 'react-native'
 
 import TextInputGroup from './TextInputGroup'
 // 引入通用控件组件
@@ -73,7 +73,8 @@ export default class ItemsEditGroup extends Component {
       modalVisible: false,
       list: [],
       curEditItem: '',
-      curEditIndex: -1
+      curEditIndex: 0,
+      isUpdate: false
     }
     this._addItem = this._addItem.bind(this)
     this._updateItem = this._updateItem.bind(this)
@@ -81,11 +82,10 @@ export default class ItemsEditGroup extends Component {
     this._showEditModal = this._showEditModal.bind(this)
     this._hideEditModal = this._hideEditModal.bind(this)
   }
-  _removeItem (currentIndex) {
+  _removeItem (curEditIndex) {
     let newList = this.state.list.slice()
-    newList.splice(currentIndex, 1)
+    newList.splice(curEditIndex, 1)
     this.props.settingUpdate({MORE_CITIES: newList})
-    // this.setState({list: newList})
   }
   _addItem (newItem) {
     if (this.state.list.length >= 4) {
@@ -95,26 +95,21 @@ export default class ItemsEditGroup extends Component {
     let newList = this.state.list.slice()
     newList.push(newItem)
     this.props.settingUpdate({MORE_CITIES: newList})
-    // this.setState({list: newList})
   }
-  _updateItem (currentItem, currentIndex) {
+  _updateItem (curEditItem, curEditIndex) {
     
-    let newList = this.state.list.map((item, index) => item = currentItem && index === currentIndex ? currentItem : item)
+    let newList = this.state.list.map((item, index) => item = curEditItem && index === curEditIndex ? curEditItem : item)
     this.props.settingUpdate({MORE_CITIES: newList})
-    // this.setState({list: newList})
   }
-  _showEditModal (curEditItem, currentIndex) {
-    this.setState({
-      modalVisible: true,
-      curEditItem: curEditItem || '',
-      currentIndex: currentIndex || -1
-    })
+  _showEditModal (option) {
+    const isUpdate = !(option === undefined)
+    this.setState({curEditItem: '', curEditIndex: -1, modalVisible: true, isUpdate, ...option})
   }
   _hideEditModal () {
     this.setState({
       modalVisible: false,
-      currentItem: '',
-      currentIndex: -1
+      curEditItem: '',
+      curEditIndex: -1
     })
   }
   componentWillMount () {
@@ -153,14 +148,23 @@ export default class ItemsEditGroup extends Component {
                 <TouchableHighlight 
                   style={styles.touchRight} 
                   underlayColor={flatColor.TURQUOISE}
-                  onPress={() => {this._showEditModal(item, index)}}
+                  onPress={() => {this._showEditModal({curEditItem: item, curEditIndex: index})}}
                 >
                   <Text style={styles.label}>{item}</Text>
                 </TouchableHighlight>
                 <TouchableHighlight 
                   style={styles.touchLeft} 
                   underlayColor={flatColor.WET_ASPHALT}
-                  onPress={() => {this._removeItem(index)}}
+                  onPress={() => {
+                    Alert.alert(
+                      'System Alert',
+                      'Decide to delete?',
+                      [
+                        {text: 'No'},
+                        {text: 'Yes', onPress: () => {this._removeItem(index)}},
+                      ]
+                    )
+                  }}
                 >
                   <Icon name='cross' style={styles.iconButton} color={flatColor.SILVER} />
                 </TouchableHighlight>
@@ -192,8 +196,8 @@ export default class ItemsEditGroup extends Component {
               defaultValue: this.state.curEditItem,
               onSubmitEditing: (event) => {
                 if (event.nativeEvent.text) {
-                  if (this.state.currentIndex >= 0) {
-                    this._updateItem(event.nativeEvent.text, this.state.currentIndex)
+                  if (this.state.isUpdate) {
+                    this._updateItem(event.nativeEvent.text, this.state.curEditIndex)
                   } else {
                     this._addItem(event.nativeEvent.text)
                   }
@@ -222,8 +226,8 @@ export default class ItemsEditGroup extends Component {
                   let elmTextInput = cityInput.refs['elmTextInput']
                   let lastNativeText = elmTextInput._lastNativeText
                   if (lastNativeText) {
-                    if (this.state.currentIndex >= 0) {
-                      this._updateItem(lastNativeText, this.state.currentIndex)
+                    if (this.state.curEditIndex >= 0) {
+                      this._updateItem(lastNativeText, this.state.curEditIndex)
                     } else {
                       this._addItem(lastNativeText)
                     }
@@ -242,7 +246,6 @@ export default class ItemsEditGroup extends Component {
           </KeyboardAvoidingView>
         </Modal>
       </View>
-      
     )
   }
 }
