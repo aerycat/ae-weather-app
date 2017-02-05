@@ -179,7 +179,7 @@ export default class ItemsEditGroup extends Component {
               justifyContent: 'center',
               backgroundColor: 'rgba(0, 0, 0, .7)'
             }}
-            behavior={'padding'}
+            behavior={'height'}
           >
           <View style={{backgroundColor: flatColor.SILVER,  marginHorizontal: 24}}>
           <View style={{

@@ -54,7 +54,7 @@ class ToastTips extends Component{
     return this.props.sysmsg && this.props.sysmsg.message ? (
       <Animated.View style={{opacity, transform: [{translateY}]}}>
         <View style={{alignSelf: 'center', backgroundColor: flatColor.BLACK, opacity: .75, paddingVertical: 6, paddingHorizontal: 12, marginTop: 4}} >
-          <Text style={{color: flatColor.WHILE}}>{this.props.sysmsg.message}</Text>
+          <Text style={{color: flatColor.WHILE, textAlign: 'center'}}>{this.props.sysmsg.message}</Text>
         </View>
       </Animated.View>
     ) : null
