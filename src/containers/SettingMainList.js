@@ -29,6 +29,7 @@ const SettingMainList = ({navigator, settingState, settingUpdate}) => (
           dispatchAction={() => { navigator.push({ key: 'Setting:DefaultCity', title: 'Custom City' }) }}
         />
     }
+    <Separator />
     <TextOption
       label='More Cities'
       defaultValue={settingState.MORE_CITIES && settingState.MORE_CITIES.length}

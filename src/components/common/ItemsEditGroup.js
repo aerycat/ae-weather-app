@@ -88,11 +88,13 @@ export default class ItemsEditGroup extends Component {
     this.props.settingUpdate({MORE_CITIES: newList})
   }
   _addItem (newItem) {
-    if (this.state.list.length >= 4) {
-      this.props.systemMsgPush({mid: 'SETTING_LOG', message: 'Can not add more than 4 cities'})
+    const {itemsLimit} = this.props
+    const {list: stateList} = this.state
+    if (itemsLimit && stateList.length >= itemsLimit) {
+      this.props.systemMsgPush({mid: 'SETTING_LOG', message: `Can not add more than ${itemsLimit} item`})
       return
     }
-    let newList = this.state.list.slice()
+    let newList = stateList.slice()
     newList.push(newItem)
     this.props.settingUpdate({MORE_CITIES: newList})
   }

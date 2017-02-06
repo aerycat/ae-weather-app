@@ -30,7 +30,7 @@ export default class WeatherAnimatedImage extends Component {
           transform: [
             {scale: this.state.scale}
           ]
-        }} 
+        }}
         source={weatherIcons(this.props.weatherCode)}
       />
     )

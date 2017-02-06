@@ -6,7 +6,7 @@ import SystemTimer from '../containers/SystemTimer'
 import TextInputRow from '../containers/TextInputRow'
 import WeatherViewSwiper from '../containers/WeatherViewSwiper'
 import IconButton from './common/IconButton'
-import ToastTipsCollection from './common/ToastTipsCollection'
+import ToastTipsCollection from '../containers/ToastTipsCollection'
 // 引入常量或工具
 import {flatColor} from '../utilities/styleTools'
 // 创建组件

@@ -1,9 +1,9 @@
 /* 异步事件处理 */
-import { takeLatest } from 'redux-saga'
-import { race, put, call, fork, select, take } from 'redux-saga/effects'
-import { WEATHER_DEFAULT_ID, WEATHER_FETCH_TIMEOUT } from '../utilities/constant'
+import {takeLatest} from 'redux-saga'
+import {race, put, call, fork, select, take} from 'redux-saga/effects'
+import {WEATHER_DEFAULT_ID, WEATHER_FETCH_TIMEOUT} from '../utilities/constant'
 import * as actions from '../actions'
-import { api, geo } from '../services'
+import {api, geo} from '../services'
 
 // 延迟方法
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
@@ -21,6 +21,7 @@ export function* getWeatherSchedule() {
   }
 }
 export function* getWeather(wid, keyword, unit) {
+  const nickname = (/^[-]?[0-9]+(\.[0-9]+)?,[-]?[0-9]+(\.[0-9]+)?$/).test(keyword) ? 'GEO' : keyword
   try {
     yield put(actions.weatherFetchStart(wid))
     const {weatherData, timeout} = yield race({
@@ -30,12 +31,12 @@ export function* getWeather(wid, keyword, unit) {
     if (weatherData) {
       yield put(actions.weatherFetchSucceed(wid, weatherData))
     } else {
-      yield put(actions.weatherFetchFailed(wid, 'No data'))
-      yield put(actions.systemMsgPush({mid: 'WEATHER_LOG', message: timeout ? 'server timeout' : 'No data'}))
+      yield put(actions.weatherFetchFailed(wid, `No data (${nickname})`))
+      yield put(actions.systemMsgPush({mid: `WEATHER_LOG:${wid}`, message: timeout ? 'server timeout' : 'No data'}))
     }
   } catch (error) {
-    yield put(actions.weatherFetchFailed(wid, 'Unable to get weather data'))
-    yield put(actions.systemMsgPush({mid: 'WEATHER_LOG', message: 'Unable to get weather data'}))
+    yield put(actions.weatherFetchFailed(wid, `Unable to get ${nickname}'s weather`))
+    yield put(actions.systemMsgPush({mid: `WEATHER_LOG:${wid}`, message: `Unable to get ${nickname}'s weather`}))
   }
 }
 // 获取地理信息
@@ -48,7 +49,7 @@ export function* getGeolocation(autoWeatherFetch = false) {
     if (autoWeatherFetch) yield put(actions.weatherFetch(WEATHER_DEFAULT_ID))
   } catch (g1Error) {
     try {
-      yield put(actions.systemMsgPush({mid: 'GEO_LOG', message: 'Switch to low-precision GEO information query'})) 
+      yield put(actions.systemMsgPush({mid: 'GEO_LOG', message: 'Switch to low-precision GEO'})) 
       const position = yield call(geo.getGeolocation)
       let {lat, long} = position
       yield put(actions.geolocationFetchSucceed(position))
@@ -69,7 +70,7 @@ export function* refreshHomeScene(dispatch) {
     yield put(actions.weatherKeywordUpdate(WEATHER_DEFAULT_ID, cityName))
     yield put(actions.weatherRemoveMore())
     let index = 0
-    const total = moreCities.length
+    const total = moreCities.length > 99 ? 99 : moreCities.length
     while (index < total) {
       yield put(actions.weatherAdd(moreCities[index]))
       index++

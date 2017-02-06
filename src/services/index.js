@@ -32,7 +32,7 @@ const weatherApi = (keyword, unit) => {
 // api服务（远程资源）
 export const api = {
   getWeather(keyword, unit) {
-    return fetch(weatherApi(keyword, unit), { method: 'GET' })
+    return fetch(weatherApi(keyword, unit), {method: 'GET'})
       .then(response =>
         response.json().then(json => ({ json, response }))
       ).then(({ json, response }) => {

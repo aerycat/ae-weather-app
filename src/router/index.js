@@ -1,7 +1,7 @@
 /* 导航与路由控制 */ 
 import React, {Component} from 'react'
 import {NavigationExperimental} from 'react-native'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 import * as actions from '../actions'
 import dismissKeyboard from 'dismissKeyboard'
 // 引入场景

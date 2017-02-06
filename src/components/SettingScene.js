@@ -2,7 +2,7 @@
 import React, {Component} from 'react'
 import {View} from 'react-native'
 // 引入通用控件组件
-import ToastTipsCollection from './common/ToastTipsCollection'
+import ToastTipsCollection from '../containers/ToastTipsCollection'
 // 设置子项
 import SettingMainList from '../containers/SettingMainList'
 import SettingDefaultCity from '../containers/SettingDefaultCity'

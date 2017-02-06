@@ -16,8 +16,8 @@ import {AsyncStorage} from 'react-native'
 
 /* redux relation */
 // redux配置
-import { applyMiddleware, compose } from 'redux'
-import { Provider } from 'react-redux'
+import {applyMiddleware, compose} from 'redux'
+import {Provider} from 'react-redux'
 import {persistStore, autoRehydrate} from 'redux-persist'
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from './sagas'
@@ -50,7 +50,6 @@ export default class aeWeatherApp extends Component {
     persistStore(store, {storage: AsyncStorage, whitelist: ['setting']}, () => {
       this.setState({initializeComplete: true})
       store.dispatch(actions.refreshHomeScene())
-      // store.dispatch(actions.navigationPush({key: 'Setting:MoreCities', title: 'More Cities'}))
     })
   }
   render() {

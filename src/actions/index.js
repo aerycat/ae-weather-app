@@ -1,3 +1,4 @@
+// 天气事件
 export const WEATHER_ADD = 'WEATHER_ADD'
 export const WEATHER_REOMVE_MORE = 'WEATHER_REOMVE_MORE'
 export const WEATHER_KEYWORD_UPDATE = 'WEATHER_KEYWORD_UPDATE'
@@ -40,6 +41,7 @@ export const weatherFetchFailed = (wid, errorMsg) => ({
   wid
 })
 
+// 地理事件
 export const GEOLOCATION_FETCH = 'GEOLOCATION_FETCH'
 export const GEOLOCATION_FETCH_SUCCEED = 'GEOLOCATION_FETCH_SUCCEED'
 export const GEOLOCATION_FETCH_FAILED = 'GEOLOCATION_FETCH_FAILED'
@@ -56,6 +58,7 @@ export const geolocationFetchFailed = (errorMsg) => ({
   errorMsg
 })
 
+// 导航事件
 export const NAVIGATION_PUSH = 'NAVIGATION_PUSH'
 export const NAVIGATION_POP = 'NAVIGATION_POP'
 export const navigationPush = (route) => ({
@@ -65,28 +68,34 @@ export const navigationPush = (route) => ({
 export const navigationPop = () => ({
   type: NAVIGATION_POP
 })
+
+// 设置事件
 export const SETTING_UPDATE = 'SETTING_UPDATE'
 export const settingUpdate = (setting) => ({
   type: SETTING_UPDATE,
   setting
 })
 
+// 退回首页事件
 export const REFRESH_HOME_SCENE = 'REFRESH_HOME_SCENE'
 export const refreshHomeScene = () => ({
   type: REFRESH_HOME_SCENE
 })
 
+// 系统提示事件
 export const SYSTEM_MSG_PUSH = 'SYSTEM_MSG_PUSH'
 export const SYSTEM_MSG_PULL = 'SYSTEM_MSG_PULL'
-
+export const SYSTEM_MSG_PULL_ALL = 'SYSTEM_MSG_PULL_ALL'
 export const systemMsgPush = (sysmsg) => ({
   type: SYSTEM_MSG_PUSH,
   sysmsg: {mid: 'SYSTEM_MESSAGE', ...sysmsg}
 }) 
-
 export const systemMsgPull = (sysmsgID) => ({
   type: SYSTEM_MSG_PULL,
   sysmsgID
+})
+export const systemMsgPullAll = () => ({
+  type: SYSTEM_MSG_PULL_ALL
 }) 
 
 

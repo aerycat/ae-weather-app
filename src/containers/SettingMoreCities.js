@@ -3,6 +3,7 @@ import React from 'react'
 import {View} from 'react-native'
 import {connect} from 'react-redux'
 import ItemsEditGroup from '../components/common/ItemsEditGroup'
+import {MORECITY_MAX} from '../utilities/constant.js'
 // 引入常量或工具
 import * as actions from '../actions'
 import {flatColor} from '../utilities/styleTools'
@@ -13,7 +14,8 @@ const SettingMoreCities = ({settingUpdate, settingState, systemMsgPush}) => (
         itemsList: settingState.MORE_CITIES,
         settingUpdate,
         systemMsgPush,
-        tipText: 'You can add up to 4 cities',
+        itemsLimit: MORECITY_MAX,
+        tipText: 'You can add up to ' + MORECITY_MAX + ' cities',
         addButtonTitle:'ADD CITY'
       }}
     />

@@ -1,7 +1,7 @@
 /* reducers */
-import { combineReducers } from 'redux'
-import { NavigationExperimental } from 'react-native'
-import { WEATHER_DEFAULT_ID } from '../utilities/constant.js'
+import {combineReducers} from 'redux'
+import {NavigationExperimental} from 'react-native'
+import {WEATHER_DEFAULT_ID, MORECITY_MAX} from '../utilities/constant.js'
 import uuidV4 from 'uuid/v4'
 import * as actions from '../actions'
 import _LO from 'lodash'
@@ -39,7 +39,7 @@ const _state = {
   },
   navigation: {
     index: 0,
-    routes: [{ key: 'Home' }]
+    routes: [{key: 'Home'}]
   },
   setting: {
     HOMEPAGE_CITY: 'Shenzhen',
@@ -53,7 +53,7 @@ const _state = {
 const weather = (state, action) => {
   switch (action.type) {
     case actions.WEATHER_ADD:
-      return {...state, wid: uuidV4(), keyword: action.keyword}
+      return {...state, wid: uuidV4().slice(0,18), keyword: action.keyword}
     case actions.WEATHER_FETCH:
       return {...state, status: 'ready', errorMsg: ''}
     case actions.WEATHER_KEYWORD_UPDATE:
@@ -73,7 +73,7 @@ const weather = (state, action) => {
 const weathers = (state = _state.weathers, action) => {
   switch (action.type) {
     case actions.WEATHER_ADD:
-      return state.length > 5 ? state : [...state, weather(_weather, action)]
+      return state.length > MORECITY_MAX + 1 ? state : [...state, weather(_weather, action)]
     case actions.WEATHER_REOMVE_MORE:
       return _LO.filter(state, ['wid', WEATHER_DEFAULT_ID])
     case actions.WEATHER_KEYWORD_UPDATE:
@@ -132,6 +132,8 @@ const systemMsg = (state = _state.systemMsg, action) => {
       return  _LO.uniqBy([action.sysmsg, ...state], 'mid')
     case actions.SYSTEM_MSG_PULL:
       return  state.filter((sysmsg) => sysmsg.mid !== action.sysmsgID)
+    case actions.SYSTEM_MSG_PULL_ALL:
+      return  []
     default:
       return state
   }
