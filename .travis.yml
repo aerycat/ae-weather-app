@@ -6,7 +6,7 @@ node_js:
   - "7"
 
 script:
-  - npm run build-android
+  - npm test
 
 branches:
   only:
