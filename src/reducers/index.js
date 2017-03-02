@@ -1,7 +1,7 @@
 /* reducers */
 import {combineReducers} from 'redux'
 import {NavigationExperimental} from 'react-native'
-import {WEATHER_DEFAULT_ID, MORECITY_MAX} from '../utilities/constant.js'
+import {WEATHER_DEFAULT_ID, MORECITY_MAX} from '../utilities/constant'
 import uuidV4 from 'uuid/v4'
 import * as actions from '../actions'
 import _LO from 'lodash'

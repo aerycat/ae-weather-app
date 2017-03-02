@@ -105,7 +105,6 @@ export const weatherIcons = (code) => {
   }
 } 
 
-
 export const temperatureUnitOptions = [
   {title: '℃', value: 'c'},
   {title: '℉', value: 'f'}

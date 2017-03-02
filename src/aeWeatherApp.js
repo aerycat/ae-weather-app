@@ -21,7 +21,7 @@ import {Provider} from 'react-redux'
 import {persistStore, autoRehydrate} from 'redux-persist'
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from './sagas'
-import configureStore from './store/configureStore.js'
+import configureStore from './store/configureStore'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
   window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({/* options */}) :

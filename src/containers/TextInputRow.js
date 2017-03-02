@@ -6,7 +6,7 @@ import {connect} from 'react-redux'
 import TextInputGroup from '../components/common/TextInputGroup'
 import IconButton from '../components/common/IconButton'
 // 引入常量或工具
-import {WEATHER_DEFAULT_ID} from '../utilities/constant.js'
+import {WEATHER_DEFAULT_ID} from '../utilities/constant'
 import * as actions from '../actions'
 import {flatColor} from '../utilities/styleTools'
 // 定义组件样式

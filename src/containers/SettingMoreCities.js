@@ -3,7 +3,7 @@ import React from 'react'
 import {View} from 'react-native'
 import {connect} from 'react-redux'
 import ItemsEditGroup from '../components/common/ItemsEditGroup'
-import {MORECITY_MAX} from '../utilities/constant.js'
+import {MORECITY_MAX} from '../utilities/constant'
 // 引入常量或工具
 import * as actions from '../actions'
 import {flatColor} from '../utilities/styleTools'

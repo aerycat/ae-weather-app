@@ -2,10 +2,10 @@
 import { 
   GEOLOCATION_FETCH_HA_TIMEOUT, 
   GEOLOCATION_FETCH_TIMEOUT, 
-  GEOLOCATION_MAXIMUM_AGE 
-} from '../utilities/constant.js'
-const prefix = 'https://query.yahooapis.com/v1/public/yql?q='
-const suffix = '&format=json'
+  GEOLOCATION_MAXIMUM_AGE,
+  WEATHER_API_PREFIX,
+  WEATHER_API_SUBFIX
+} from '../utilities/constant'
 
 // 搜索关键字解析
 const keywordParse = (keyword) => {
@@ -27,7 +27,7 @@ const weatherApi = (keyword, unit) => {
     result = encodeURI(yql)
   } catch (error) {
   }
-  return result ? prefix + result + suffix : ''
+  return result ? `${WEATHER_API_PREFIX}${result}${WEATHER_API_SUBFIX}` : ''
 }
 // api服务（远程资源）
 export const api = {
