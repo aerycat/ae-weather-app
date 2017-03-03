@@ -12,7 +12,7 @@
  *  os/aeWeatherApp/Info.plist
 **/
 import React, {Component} from 'react'
-import {AsyncStorage} from 'react-native'
+import {View, AsyncStorage} from 'react-native'
 
 /* redux relation */
 // redux配置
@@ -41,6 +41,8 @@ import * as actions from './actions'
 import InitializeCurtain from './components/common/InitializeCurtain'
 // 引入路由
 import NavRootContainer from './router'
+// 引入通用控件组件
+import ToastTipsCollection from './containers/ToastTipsCollection'
 
 export default class aeWeatherApp extends Component {
   state = {
@@ -55,7 +57,10 @@ export default class aeWeatherApp extends Component {
   render() {
     return (
       <Provider store={store}>
+        <View style={{flex: 1}}>
         {this.state.initializeComplete ? (<NavRootContainer />) : (<InitializeCurtain />)}
+        <ToastTipsCollection />
+        </View>
       </Provider>
     )
   }

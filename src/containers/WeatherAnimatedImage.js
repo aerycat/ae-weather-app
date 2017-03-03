@@ -11,6 +11,7 @@ export default class WeatherAnimatedImage extends Component {
       scale: new Animated.Value(0)
     }
   }
+  // 加载时设置动画
   componentWillMount () {
     this.state.scale.stopAnimation()
     this.state.scale.setValue(.8)

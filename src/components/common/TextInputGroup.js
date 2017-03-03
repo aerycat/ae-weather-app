@@ -5,7 +5,7 @@ import {View, TextInput} from 'react-native'
 import IconButton from './IconButton'
 // 引入常量或工具
 import {flatColor} from '../../utilities/styleTools'
-// 定义组件样式
+// 默认组件样式
 const textInputDefalutProps = {
   style: {
     flex: 1,

@@ -4,7 +4,7 @@ import {View} from 'react-native'
 import {connect} from 'react-redux'
 import TextInputGroup from '../components/common/TextInputGroup'
 import * as actions from '../actions'
-
+// 设置默认城市变更
 const SettingDefaultCity = ({navigator, settingUpdate, settingState}) => (
   <View style={{flex: 1, flexDirection: 'column'}}>
     <View style={{flexDirection: 'row'}}>

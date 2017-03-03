@@ -4,22 +4,10 @@ import {NavigationExperimental} from 'react-native'
 import {connect} from 'react-redux'
 import * as actions from '../actions'
 import dismissKeyboard from 'dismissKeyboard'
-// 引入场景
-import HomeScene from '../components/HomeScene'
-import SettingScene from '../components/SettingScene'
-// 场景配置
-const SceneConfigMap = {
-  'Home': {
-    noHeader: true,
-    scene: HomeScene,
-    title: 'Home'
-  },
-  'Setting': {
-    scene: SettingScene,
-    title: 'Setting'
-  }
-}
-// 分解Key值
+// 引入场景列表
+import Scenes from './scenes'
+
+// 分解路由query
 const parseKey = (keyStr) => {
   let [sceneKey, query] = keyStr.split(':')
   return {sceneKey, query}
@@ -42,21 +30,23 @@ class NavRootContainer extends Component {
   _renderScene = (props) => {
     let {scene: {route: {key}}} = props
     let {sceneKey, query} = parseKey(key)
-    let CurrentScene = SceneConfigMap['Home'].scene
+    // 默认路由到首页场景
+    let CurrentScene = Scenes['Home'].scene
+    // 降下键盘
     dismissKeyboard()
-    if (sceneKey && SceneConfigMap[sceneKey]) CurrentScene = SceneConfigMap[sceneKey].scene
+    if (sceneKey && Scenes[sceneKey]) CurrentScene = Scenes[sceneKey].scene
     return <CurrentScene  navigator={this._navigator} routeQuery={query}/>
   }
   // 渲染导航头部
   _renderHeader = (props) => {
     let {scene: {route: {key, title: customTitle}}} = props
     let {sceneKey} = parseKey(key)
-    return key && SceneConfigMap[sceneKey] && SceneConfigMap[sceneKey].noHeader ? null : 
+    return key && Scenes[sceneKey] && Scenes[sceneKey].noHeader ? null : 
       <NavigationHeader
         renderTitleComponent={() => (
-          customTitle || SceneConfigMap[sceneKey].title ? 
+          customTitle || Scenes[sceneKey].title ? 
             <NavigationHeader.Title>
-              {customTitle || SceneConfigMap[sceneKey].title}
+              {customTitle || Scenes[sceneKey].title}
             </NavigationHeader.Title>
             : null
         )}
@@ -64,6 +54,7 @@ class NavRootContainer extends Component {
         {...props}
       />
   }
+  // 渲染导航卡堆栈
   render() {
     return (
       <NavigationCardStack

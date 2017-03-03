@@ -1,8 +1,6 @@
 /* 设置页面场景组件 */
 import React, {Component} from 'react'
 import {View} from 'react-native'
-// 引入通用控件组件
-import ToastTipsCollection from '../containers/ToastTipsCollection'
 // 设置子项
 import SettingMainList from '../containers/SettingMainList'
 import SettingDefaultCity from '../containers/SettingDefaultCity'
@@ -14,19 +12,19 @@ export default class SettingScene extends Component  {
     let currentScene = null
     const {navigator} = this.props
     switch (this.props.routeQuery) {
-      // 城市名称输入控件
+      // 首页城市名称变更
       case 'DefaultCity':
         currentScene = (
           <SettingDefaultCity {...{navigator}} />
         )
         break
-      // 天气单位选择控件
+      // 天气单位选择
       case 'TemperatureUnit':
         currentScene = (
           <SettingTemperatureUnit {...{navigator}} />
         )
         break
-      // 更多城市
+      // 更多城市编辑
       case 'MoreCities':
         currentScene = (
           <SettingMoreCities />
@@ -42,7 +40,6 @@ export default class SettingScene extends Component  {
     return (
       <View style={{flex: 1}}>
         {currentScene}
-        <ToastTipsCollection />
       </View>
     )
   }

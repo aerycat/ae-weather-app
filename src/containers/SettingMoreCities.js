@@ -8,6 +8,7 @@ import {MORECITY_MAX} from '../utilities/constant'
 import * as actions from '../actions'
 import {flatColor} from '../utilities/styleTools'
 
+// 设置更多城市
 const SettingMoreCities = ({settingUpdate, settingState, systemMsgPush}) => (
   <View style={{flex: 1, flexDirection: 'column'}}>
     <ItemsEditGroup {...{

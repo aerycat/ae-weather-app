@@ -1,4 +1,4 @@
-/* 弹出提示 */
+/* 弹出提示组件 */
 import React, {Component} from 'react'
 import {View, Text, Animated} from 'react-native'
 import {flatColor} from '../../utilities/styleTools'
