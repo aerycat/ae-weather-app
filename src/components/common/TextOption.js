@@ -1,4 +1,4 @@
-/* 文字栏组件 */
+/* 文字项组件 */
 import React from 'react'
 import {View, Text, TouchableHighlight, StyleSheet} from 'react-native'
 // 引入通用控件组件

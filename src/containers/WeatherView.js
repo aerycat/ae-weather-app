@@ -75,6 +75,7 @@ const WeatherView = ({weatherState, temperatureUnitValue, weatherFetch}) => {
       }
     }
   } = weatherState
+  // 天气单位
   const temperatureUnit = temperatureUnitOptions.find((option) => option.value === temperatureUnitValue)
   const temperatureUnitTitle = temperatureUnit ? temperatureUnit.title : ''
   // 定义内部视图组件
@@ -92,6 +93,7 @@ const WeatherView = ({weatherState, temperatureUnitValue, weatherFetch}) => {
       weatherCode = '3200'
       break;
   }
+  // imgage视图状态处理
   normalImageView = istatus === 'loading' ? 
   (
     <View style={styles.loadImageView}>
@@ -132,6 +134,7 @@ const WeatherView = ({weatherState, temperatureUnitValue, weatherFetch}) => {
       elmTipsText = 'Please enter a city name above'
       break;
   }
+  // 提示视图
   elmTipsView = <Text style={styles.tips}>{elmTipsText}</Text>
   // 城市信息视图
   elmKeywordView = icity !== '' ? 

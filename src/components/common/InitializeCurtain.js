@@ -5,7 +5,8 @@ import {flatColor} from '../../utilities/styleTools'
 // 引入图片
 const logoImage = require('../../assets/img/flower.png')
 
-// 创建组件
+// 创建组件(动画效果可选)
+
 // 不含动画
 // export default () => (
 //   <View style={{flex: 1, flexDirection: 'row', backgroundColor: flatColor.WHILE}}>
@@ -14,6 +15,7 @@ const logoImage = require('../../assets/img/flower.png')
 //     </View>
 //   </View>
 // )
+
 // 包含动画
 export default class InitializeCurtain extends Component {
   constructor(props) {
@@ -22,6 +24,7 @@ export default class InitializeCurtain extends Component {
       rotateY: new Animated.Value(0)
     }
   }
+  // 加载完成后计算动画效果
   componentDidMount() {
     Animated.timing(this.state.rotateY, {
       toValue: 1,

@@ -8,8 +8,6 @@ import * as actions from '../actions'
 import {flatColor} from '../utilities/styleTools'
 import {WEATHER_DEFAULT_ID} from '../utilities/constant'
 
-_swiperScrolled = false
-
 class WeatherViewSwiper extends Component {
   componentDidUpdate (prevProps, prevState) {
     const weatherDefault = prevProps.weathersState && prevProps.weathersState.find((weather) => weather.wid === WEATHER_DEFAULT_ID)
@@ -37,7 +35,6 @@ class WeatherViewSwiper extends Component {
   }
 }
 
-// 链接到store
 WeatherViewSwiper = connect(
   (state) => ({
     weathersState: state.weathers,

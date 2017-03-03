@@ -7,6 +7,7 @@ import * as actions from '../actions'
 
 import {temperatureUnitOptions} from '../utilities/weatherTools'
 
+// 设置温度单位
 const SettingTemperatureUnit = ({navigator, settingUpdate, settingState}) => (
   <View style={{flex: 1, flexDirection: 'column'}}>
     <SelectorGroup 

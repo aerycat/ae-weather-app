@@ -9,6 +9,7 @@ import * as actions from '../actions'
 import {temperatureUnitOptions} from '../utilities/weatherTools'
 import {version as appVersion} from '../../package.json'
 
+// 设置一级列表
 const SettingMainList = ({navigator, settingState, settingUpdate}) => (
   <View style={{ flex: 1, flexDirection: 'column' }}>
     <Separator label='Default City' />

@@ -1,8 +1,8 @@
 /* 选择器组件 */
 import React, {Component} from 'react'
 import {View, ScrollView, KeyboardAvoidingView, TouchableHighlight, Text, Modal, Alert, StyleSheet} from 'react-native'
-
 import TextInputGroup from './TextInputGroup'
+
 // 引入通用控件组件
 import Icon from 'react-native-vector-icons/Entypo'
 // 引入常量或工具
@@ -82,11 +82,13 @@ export default class ItemsEditGroup extends Component {
     this._showEditModal = this._showEditModal.bind(this)
     this._hideEditModal = this._hideEditModal.bind(this)
   }
+  // 删除项
   _removeItem (curEditIndex) {
     let newList = this.state.list.slice()
     newList.splice(curEditIndex, 1)
     this.props.settingUpdate({MORE_CITIES: newList})
   }
+  // 添加项
   _addItem (newItem) {
     const {itemsLimit} = this.props
     const {list: stateList} = this.state
@@ -98,15 +100,17 @@ export default class ItemsEditGroup extends Component {
     newList.push(newItem)
     this.props.settingUpdate({MORE_CITIES: newList})
   }
+  // 更新项
   _updateItem (curEditItem, curEditIndex) {
-    
     let newList = this.state.list.map((item, index) => item = curEditItem && index === curEditIndex ? curEditItem : item)
     this.props.settingUpdate({MORE_CITIES: newList})
   }
+  // 显示输入弹窗
   _showEditModal (option) {
     const isUpdate = !(option === undefined)
     this.setState({curEditItem: '', curEditIndex: -1, modalVisible: true, isUpdate, ...option})
   }
+  // 隐藏输入弹窗
   _hideEditModal () {
     this.setState({
       modalVisible: false,
@@ -114,11 +118,13 @@ export default class ItemsEditGroup extends Component {
       curEditIndex: -1
     })
   }
+  // 加载前读取项目列表
   componentWillMount () {
     this.setState({
       list: this.props.itemsList
     })
   }
+  // 接受新属性时导入到本地state中
   componentWillReceiveProps (nextProps) {
     this.setState({
       list: nextProps.itemsList
