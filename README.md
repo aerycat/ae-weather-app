@@ -1,5 +1,5 @@
 # ae-weather-app
-[![version](https://img.shields.io/badge/version-v0.1.3-blue.svg)](https://github.com/aerycat/ae-weather-app/releases)
+[![version](https://img.shields.io/badge/version-v0.2.0-blue.svg)](https://github.com/aerycat/ae-weather-app/releases)
 [![test](https://travis-ci.org/aerycat/ae-weather-app.svg?branch=master)](https://travis-ci.org/aerycat/ae-weather-app)
 
 A simple react-native app demo
@@ -11,9 +11,7 @@ A simple react-native app demo
 
 **Then**
 ```
-npm i
-# or
-yarn
+yarn || npm i
 ```
 ```
 react-native run-ios
